@@ -60,8 +60,8 @@ function savePlaylist(listname){
         document.querySelectorAll('tp-yt-paper-item[class="style-scope ytd-compact-link-renderer"]')[0].click();
         let elm = document.querySelectorAll('input[placeholder="Enter playlist name..."]')[0];
         elm.value=listname;
-        let ev = new Event("change");
-        elm.dispatchEvent(ev);
+        let ev = new Event("input");
+        elm.parentElement.dispatchEvent(ev);
         document.querySelectorAll('button[aria-label="Create"]')[1].click();
     }
     }
