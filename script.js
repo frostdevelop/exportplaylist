@@ -1,4 +1,7 @@
 //Export
+let url;
+let page;
+
 function scroll(){
     var scrolldown = setInterval(() => window.scrollBy(0, 2000), 200);
 }
@@ -69,6 +72,26 @@ function savePlaylist(listname){
     );
 }
 
+function injectplaylist(){
+    bar = document.querySelectorAll('div[class="metadata-buttons-wrapper style-scope ytd-playlist-header-renderer"]')[0];
+    export = document.createElement
+    scroll = document.createElement
+    bar.appendChild(export)
+}
+
+function injectvideo(){
+    
+}
+
 chrome.runtime.onMessage.addListener((obj, sender, res)=>{
-    const { type, value, url } = obj
+    const { type, value, link } = obj;
+    url = link;
+    if(type === "playlist"){
+        page = "playlist";
+        injectplaylist();
+    }
+    else if(type === "video"){
+        page = "video";
+        injectvideo();
+    }
 })
