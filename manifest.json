@@ -3,6 +3,7 @@
   "name": "ExportPlaylist",
   "version": "1.0",
   "description": "Export YouTube playlists!",
+  "permissions": ["storage","tabs"];
   "background": {
     "service_worker": "background.js"
   },
