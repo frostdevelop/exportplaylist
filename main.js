@@ -5,7 +5,7 @@ fileInput.addEventListener('change', (event) => {
     fr.onload = () =>{
       let data = fr.result;
       let arr = data.split('\n');
-      for(let i=0;i<arr.length;i++){
+      for(let i=1;i<arr.length;i++){
         let w = window.open(arr[i]);
       }
     }
