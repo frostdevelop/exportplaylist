@@ -49,10 +49,15 @@ function savePlaylist(listname){
     document.querySelectorAll('[aria-label="Save to playlist"]')[0].click()
     waitForElm('tp-yt-paper-dialog').then(()=>{
     let checks = document.querySelectorAll('tp-yt-paper-checkbox[class="style-scope ytd-playlist-add-to-option-renderer"]')
+    let found = false;
     for (let i=0;i<checks.length;i++){
       if(checks[i].childNodes[2].children[0].children[0].children[0].title==listname){
-        checks[i].click()
+        checks[i].click();
+        found = true;
       }
+    }
+    if(found == false){
+        
     }
     }
     );
