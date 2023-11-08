@@ -8,6 +8,8 @@ fileInput.addEventListener('change', (event) => {
     fr.onload = () =>{
       let data = fr.result;
       let arr = data.split('\n');
+      listname = arr[0];
+      document.getElementById('listname').value = listname;
       for(let i=1;i<arr.length;i++){
         let w = window.open(arr[i]);
       }
@@ -23,12 +25,28 @@ function ungrey(id){
     document.getElementById(id).classList.remove("disabled");
 }
 
+function sendMessageToActiveTab(message) {
+  const [tab] = await chrome.tabs.query({ active: true, lastFocusedWindow: true });
+  const response = await chrome.tabs.sendMessage(tab.id, message);
+  // TODO: Do something with the response.
+}
+
 document.getElementById('bsdown').addEventListener("click",(e)=>{
-    chrome.tabs.sendMessage()
+    sendMessageToAcriveTab({
+        type: "scrolldown",
+        data: {
+            
+        }
+    });
 },false)
 
 document.getElementById('beplay').addEventListener("click",(e)=>{
-    chrome.tabs.sendMessage()
+    sendMessageToAcriveTab({
+        type: "exportplay",
+        data: {
+            title: title,
+        }
+    });
 },false)
 
 document.getElementById('cexti').addEventListener("change",(e)=>{
@@ -40,9 +58,10 @@ document.getElementById('listname').addEventListener("change",(e)=>{
 },false)
 
 document.getElementById('bstarti').addEventListener("click",(e)=>{
-    chrome.tabs.sendMessage()
+    sendMessageToAcriveTab({
+        type: "startimport",
+        data: {
+            
+        }
+    });
 },false)
-
-chrome.runtime.onMessage.addListener((obj, sender, res)=>{
-    
-}
