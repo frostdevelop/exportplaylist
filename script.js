@@ -93,7 +93,7 @@ function injectvideo(){
 }
 
 chrome.runtime.onMessage.addListener((obj, sender, res)=>{
-    const { type, value, link } = obj;
+    const { type, value, data } = obj;
     url = link;
     if(type === "playlist"){
         page = "playlist";
@@ -103,4 +103,14 @@ chrome.runtime.onMessage.addListener((obj, sender, res)=>{
         page = "video";
         injectvideo();
     }
+    else if(type === "exportplay"){
+        saveplaylist(data.title);
+    }
+    else if(type === "scrolldown"){
+        scroll();
+    }
+    else if(type === "stopscroll"){
+        clearInterval(scrolldown);
+    }
+    
 })
