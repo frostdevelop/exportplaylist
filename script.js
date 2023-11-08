@@ -58,7 +58,10 @@ function savePlaylist(listname){
     }
     if(found == false){
         document.querySelectorAll('tp-yt-paper-item[class="style-scope ytd-compact-link-renderer"]')[0].click();
-        document.querySelectorAll('input[placeholder="Enter playlist name..."]')[0].value=listname;
+        let elm = document.querySelectorAll('input[placeholder="Enter playlist name..."]')[0];
+        elm.value=listname;
+        let ev = new Event("change");
+        elm.dispatchEvent(ev);
         document.querySelectorAll('button[aria-label="Create"]')[1].click();
     }
     }
