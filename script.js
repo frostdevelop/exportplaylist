@@ -68,3 +68,7 @@ function savePlaylist(listname){
     }
     );
 }
+
+chrome.runtime.onMessage.addListener((obj, sender, res)=>{
+    const { type, value, url } = obj
+})
