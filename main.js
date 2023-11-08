@@ -10,17 +10,7 @@ fileInput.addEventListener('change', (event) => {
       let arr = data.split('\n');
       listname = arr[0];
       document.getElementById('listname').value = listname;
-      for(let i = 1;i<arr.length;i++){
-          document.getElementById('bstarti').addEventListener("click",(e)=>{
-              sendMessageToAcriveTab({ 
-                  type: "import",
-                  data: {
-                      name: listname,
-                      url: arr[i];
-                      next: arr[i+1];
-                  }
-              });
-          },false)
+      document.getElementById('bstarti').addEventListener("click",startImport(arr),false)
     }
     fr.readAsText(files[0]);
 });
@@ -39,12 +29,21 @@ function sendMessageToActiveTab(message) {
   // TODO: Do something with the response.
 }
 
-function startImport(){
-    
+function startImport(arr){
+    for(let i = 1;i<arr.length;i++){
+        sendMessageToActiveTab({
+            type: "import",
+            data: {
+                name: listname,
+                url: arr[i],
+                arr[i+1] ? next: arr[i+1] : next: null,
+            }
+        });
+    } 
 }
 
 document.getElementById('bsdown').addEventListener("click",(e)=>{
-    sendMessageToAcriveTab({
+    sendMessageToActiveTab({
         type: "scrolldown",
         data: {
             
@@ -53,7 +52,7 @@ document.getElementById('bsdown').addEventListener("click",(e)=>{
 },false)
 
 document.getElementById('beplay').addEventListener("click",(e)=>{
-    sendMessageToAcriveTab({
+    sendMessageToActiveTab({
         type: "exportplay",
         data: {
             title: title,
