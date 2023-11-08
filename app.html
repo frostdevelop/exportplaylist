@@ -3,13 +3,24 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
-  <title>Export Playlist</title>
+  <title>ExList</title>
+  <link rel='stylesheet' href='app.css' type='text/css'>
 </head>
 <body>
-<input type="file" id="inputfile" accept=".csv, .txt">
- <div id="output"></div>
-<footer>Made by Pacifiky</footer>
-<script src="main.js">
-  
+  <h1>ExList</h1>
+  <h2>Export Playlist</h2>
+  <button value="Scroll" id="bsdown"></button>
+  <button value="Export" id="beplay"></button>
+  <input type="checkbox" name="Ename" id="cexti">
+  <label for="Ename">Export Titles (Doesn't import)</label>
+  <h2>Import Playlist</h2>
+  <div class="formcontainer">
+  <input type="file" id="inputfile" accept=".csv, .txt" name="inputfile">
+  <label for="inputfile">Exported Playlist</label>
+  <input type="text" id="listname" placeholder="Playlist name">
+  <button value="Start Import" id="bstarti"></button>
+  </div>
+  <footer>Made by Pacifiky</footer>
+  <script src="main.js">
 </body>
 </html>
