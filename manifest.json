@@ -1,14 +1,14 @@
 {
-  "manifest_version": 2,
+  "manifest_version": 3,
   "name": "ExportPlaylist",
   "version": "1.0",
   "description": "Export YouTube playlists!",
-  "browser_action": {
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
     "default_popup": "app.html",
     "default_title": "Export Playlists",
-    "default_icon": "icon-48.png"
-  }
-  "page_action": {
     "default_icon": {
       "16": "icon-16.png",
       "48": "icon-48.png",
