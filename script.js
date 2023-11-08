@@ -6,6 +6,7 @@ function scroll(){
 function export(title){
     clearInterval(scrolldown);
     let videos = [];
+    videos.push(document.querySelectorAll('yt-formatted-string[class="style-scope yt-dynamic-sizing-formatted-string yt-sans-28"]')[0].innerHTML);
     const links = document.querySelectorAll('a');
     for (const link of links) {
         if (link.id === "video-title") {
