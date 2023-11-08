@@ -10,9 +10,17 @@ fileInput.addEventListener('change', (event) => {
       let arr = data.split('\n');
       listname = arr[0];
       document.getElementById('listname').value = listname;
-      for(let i=1;i<arr.length;i++){
-        let w = window.open(arr[i]);
-      }
+      for(let i = 1;i<arr.length;i++){
+          document.getElementById('bstarti').addEventListener("click",(e)=>{
+              sendMessageToAcriveTab({ 
+                  type: "import",
+                  data: {
+                      name: listname,
+                      url: arr[i];
+                      next: arr[i+1];
+                  }
+              });
+          },false)
     }
     fr.readAsText(files[0]);
 });
@@ -29,6 +37,10 @@ function sendMessageToActiveTab(message) {
   const [tab] = await chrome.tabs.query({ active: true, lastFocusedWindow: true });
   const response = await chrome.tabs.sendMessage(tab.id, message);
   // TODO: Do something with the response.
+}
+
+function startImport(){
+    
 }
 
 document.getElementById('bsdown').addEventListener("click",(e)=>{
@@ -55,13 +67,4 @@ document.getElementById('cexti').addEventListener("change",(e)=>{
 
 document.getElementById('listname').addEventListener("change",(e)=>{
     listname = document.getElementById('listname').value;
-},false)
-
-document.getElementById('bstarti').addEventListener("click",(e)=>{
-    sendMessageToAcriveTab({
-        type: "startimport",
-        data: {
-            
-        }
-    });
 },false)
