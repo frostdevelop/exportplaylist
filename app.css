@@ -26,3 +26,9 @@ input {
   background: #f79817;
   color: black;
 }
+
+.disabled {
+  background: #ffcb85 !important;
+  color: #595959 !important;
+  box-shadow: none !important;
+}
