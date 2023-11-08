@@ -1,10 +1,10 @@
 //Export
 function scroll(){
-    var goToBottom = setInterval(() => window.scrollBy(0, 2000), 200);
+    var scrolldown = setInterval(() => window.scrollBy(0, 2000), 200);
 }
 
 function export(title){
-    clearInterval(goToBottom);
+    clearInterval(scrolldown);
     let videos = [];
     const links = document.querySelectorAll('a');
     for (const link of links) {
@@ -57,4 +57,3 @@ function savePlaylist(listname){
     }
     );
 }
-
