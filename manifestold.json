@@ -1,0 +1,29 @@
+{
+  "manifest_version": 2,
+  "name": "ExportPlaylist",
+  "version": "1.0",
+  "description": "Export YouTube playlists!",
+  "browser_action": {
+    "default_popup": "app.html",
+    "default_title": "Export Playlists",
+    "default_icon": "icon-48.png"
+  }
+  "page_action": {
+    "default_icon": {
+      "16": "icon-16.png",
+      "48": "icon-48.png",
+      "128": "icon-128.png"
+    }
+  },
+  "icons": {
+    "16": "icon-16.png",
+    "48": "icon-48.png",
+    "128": "icon-128.png"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://www.youtube.com/playlist","https://www.youtube.com/watch"],
+      "js": ["script.js"]
+    }
+  ]
+}
