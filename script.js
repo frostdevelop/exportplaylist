@@ -112,5 +112,7 @@ chrome.runtime.onMessage.addListener((obj, sender, res)=>{
     else if(type === "stopscroll"){
         clearInterval(scrolldown);
     }
-    
+    else if(type === "import"){
+        
+    }
 })
