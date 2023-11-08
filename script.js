@@ -54,12 +54,10 @@ function waitForElm(selector) {
 document.querySelectorAll('[aria-label="Save to playlist"]')[0].click()
 waitForElm('tp-yt-paper-dialog').then(()=>{
 // document.getElementsByClassName('style-scope ytd-playlist-add-to-option-renderer')[0].click()
-for(i in document.querySelectorAll('tp-yt-paper-checkbox[class="style-scope ytd-playlist-add-to-option-renderer"]')){
-    if (i.childNodes[2].children[0].children[0].children[0].title == "yt") {
-        i.click()
-    }
+let checks = document.querySelectorAll('tp-yt-paper-checkbox[class="style-scope ytd-playlist-add-to-option-renderer"]')
+for (let i=0;i<checks.length;i++){
+  if(checks[i].childNodes[2].children[0].children[0].children[0].title=="Watch later"){
+    checks[i].click()
+  }
 }
 })
-for (i in document.querySelectorAll('tp-yt-paper-checkbox[class="style-scope ytd-playlist-add-to-option-renderer"]')) {
-    console.log(i)
-}
