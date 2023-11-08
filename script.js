@@ -74,9 +74,18 @@ function savePlaylist(listname){
 
 function injectplaylist(){
     bar = document.querySelectorAll('div[class="metadata-buttons-wrapper style-scope ytd-playlist-header-renderer"]')[0];
-    export = document.createElement
-    scroll = document.createElement
-    bar.appendChild(export)
+    export = document.createElement('button');
+    export.innerHtml = "Export";
+    export.onclick = export(false);
+    scroll = document.createElement('button');
+    scroll.innerHtml = "Load videos";
+    scroll.onclock = scroll();
+    bar.appendChild(scroll)
+    let buttonrenderer = document.createElement("ytd-button-renderer");
+    buttonrenderer.className = "style-scope ytd-playlist-header-renderer";
+    bar.appendChild(buttonrenderer);
+    let shape = buttonrenderer.querySelectorAll('yt-button-shape')[0];
+    shape.appendChild(export);
 }
 
 function injectvideo(){
