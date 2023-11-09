@@ -113,6 +113,9 @@ chrome.runtime.onMessage.addListener((obj, sender, res)=>{
         clearInterval(scrolldown);
     }
     else if(type === "import"){
-        
+        savePlaylist(data.title);
+    }
+    else if(type === "nav"){
+        window.href.location = data.url;
     }
 })
