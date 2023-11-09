@@ -10,7 +10,7 @@ fileInput.addEventListener('change', (event) => {
       let arr = data.split('\n');
       listname = arr[0];
       document.getElementById('listname').value = listname;
-      document.getElementById('bstarti').addEventListener("click",startImport(arr),false)
+      document.getElementById('bstarti').addEventListener("click",()=>startImport(arr),false)
     }
     fr.readAsText(files[0]);
 });
@@ -32,10 +32,15 @@ function sendMessageToActiveTab(message) {
 function startImport(arr){
     for(let i = 1;i<arr.length;i++){
         sendMessageToActiveTab({
+            type: "nav",
+            data: {
+                url: nav[i],
+            }
+        });
+        sendMessageToActiveTab({
             type: "import",
             data: {
                 name: listname,
-                url: arr[i],
                 arr[i+1] ? next: arr[i+1] : next: null,
             }
         });
