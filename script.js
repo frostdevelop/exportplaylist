@@ -6,10 +6,10 @@ function scroll(){
     var scrolldown = setInterval(() => window.scrollBy(0, 2000), 200);
 }
 
-function export(title){
+function exportPlay(title){
     clearInterval(scrolldown);
     let videos = [];
-    videos.push(document.querySelectorAll('yt-formatted-string[class="style-scope yt-dynamic-sizing-formatted-string yt-sans-28"]')[0].innerHTML);
+    videos.push(document.querySelector('yt-formatted-string[class="style-scope yt-dynamic-sizing-formatted-string yt-sans-28"]').innerHTML);
     const links = document.querySelectorAll('a');
     for (const link of links) {
         if (link.id === "video-title") {
@@ -61,8 +61,8 @@ function savePlaylist(listname){
       }
     }
     if(found == false){
-        document.querySelectorAll('tp-yt-paper-item[class="style-scope ytd-compact-link-renderer"]')[0].click();
-        let elm = document.querySelectorAll('input[placeholder="Enter playlist name..."]')[0];
+        document.querySelector('tp-yt-paper-item[class="style-scope ytd-compact-link-renderer"]').click();
+        let elm = document.querySelector('input[placeholder="Enter playlist name..."]');
         elm.value=listname;
         let ev = new Event("input");
         elm.parentElement.dispatchEvent(ev);
@@ -73,16 +73,20 @@ function savePlaylist(listname){
 }
 
 function injectplaylist(){
-    bar = document.querySelectorAll('div[class="metadata-buttons-wrapper style-scope ytd-playlist-header-renderer"]')[0];
+    let classes = "yt-spec-button-shape-next yt-spec-button-shape-next--tonal yt-spec-button-shape-next--overlay yt-spec-button-shape-next--size-m yt-spec-button-shape-next--icon-button";
+    let bar = document.querySelectorAll('div[class="metadata-buttons-wrapper style-scope ytd-playlist-header-renderer"]')[0];
     export = document.createElement('button');
-    export.innerHtml = '<div class="yt-spec-button-shape-next__icon" aria-hidden="true"><yt-icon style="width: 24px; height: 24px;"><yt-icon-shape class="style-scope yt-icon"><icon-shape class="yt-spec-icon-shape"><div style="width: 100%; height: 100%; fill: currentcolor;"><svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" focusable="false" style="pointer-events: none; display: block; width: 100%; height: 100%;"><path d="M8.71,7.71,11,5.41V15a1,1,0,0,0,2,0V5.41l2.29,2.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42l-4-4a1,1,0,0,0-.33-.21,1,1,0,0,0-.76,0,1,1,0,0,0-.33.21l-4,4A1,1,0,1,0,8.71,7.71ZM21,14a1,1,0,0,0-1,1v4a1,1,0,0,1-1,1H5a1,1,0,0,1-1-1V15a1,1,0,0,0-2,0v4a3,3,0,0,0,3,3H19a3,3,0,0,0,3-3V15A1,1,0,0,0,21,14Z"/></svg></div></icon-shape></yt-icon-shape></yt-icon></div>';
+    export.innerHTML = '<div class="yt-spec-button-shape-next__icon" aria-hidden="true"><yt-icon style="width: 24px; height: 24px;"><yt-icon-shape class="style-scope yt-icon"><icon-shape class="yt-spec-icon-shape"><div style="width: 100%; height: 100%; fill: currentcolor;"><svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" focusable="false" style="pointer-events: none; display: block; width: 100%; height: 100%;"><path d="M8.71,7.71,11,5.41V15a1,1,0,0,0,2,0V5.41l2.29,2.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42l-4-4a1,1,0,0,0-.33-.21,1,1,0,0,0-.76,0,1,1,0,0,0-.33.21l-4,4A1,1,0,1,0,8.71,7.71ZM21,14a1,1,0,0,0-1,1v4a1,1,0,0,1-1,1H5a1,1,0,0,1-1-1V15a1,1,0,0,0-2,0v4a3,3,0,0,0,3,3H19a3,3,0,0,0,3-3V15A1,1,0,0,0,21,14Z"/></svg></div></icon-shape></yt-icon-shape></yt-icon></div>';
     //export.setAttribute("aria-label", "Export");
+    export.className = classes;
     export.onclick = export(false);
     let buttonrenderer = document.createElement("ytd-button-renderer");
     buttonrenderer.className = "style-scope ytd-playlist-header-renderer";
     bar.appendChild(buttonrenderer);
-    let shape = buttonrenderer.querySelectorAll('yt-button-shape')[0];
+    let shape = buttonrenderer.querySelector('yt-button-shape');
     shape.appendChild(export);
+    let tooltip = buttonrenderer.querySelector('tp-yt-paper-tooltip');
+    tooltip.innerHTML = '<div id="tooltip" class="style-scope tp-yt-paper-tooltip hidden" style-target="tooltip">Export</div>';
     /*
     scroll = document.createElement('button');
     scroll.innerHtml = "Load videos";
@@ -105,7 +109,7 @@ chrome.runtime.onMessage.addListener((obj, sender, res)=>{
         page = "video";
     }
     else if(type === "exportplay"){
-        saveplaylist(data.title);
+        exportPlay(data.);
     }
     else if(type === "scrolldown"){
         scroll();
