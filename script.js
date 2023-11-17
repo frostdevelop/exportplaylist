@@ -3,11 +3,15 @@ let url;
 let page;
 
 function scroll(){
-    var scrolldown = setInterval(() => window.scrollBy(0, 2000), 200);
+    var scrolldown = setInterval(() => {
+        window.scrollBy(0, 2000);
+    }, 200);
 }
 
 function exportPlay(title){
-    clearInterval(scrolldown);
+    if(scrolldown){
+        clearInterval(scrolldown);
+    };
     let videos = [];
     videos.push(document.querySelector('yt-formatted-string[class="style-scope yt-dynamic-sizing-formatted-string yt-sans-28"]').innerHTML);
     const links = document.querySelectorAll('a');
@@ -78,7 +82,7 @@ function injectplaylist(title){
         let bar = document.querySelector('div[class="metadata-buttons-wrapper style-scope ytd-playlist-header-renderer"]');
         let exportb = document.createElement('button');
         exportb.className = classes;
-        exportb.onclick = ()=>{exportPlay(title)};
+        exportb.onclick = exportPlay(title);
         let buttonrenderer = document.createElement("ytd-button-renderer");
         buttonrenderer.className = "style-scope ytd-playlist-header-renderer";
         bar.appendChild(buttonrenderer);
@@ -97,12 +101,12 @@ function injectplaylist(title){
         yticonshape.innerHTML = '<icon-shape class="yt-spec-icon-shape"><div style="width: 100%; height: 100%; fill: currentcolor;"><svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" focusable="false" style="pointer-events: none; display: block; width: 100%; height: 100%;"><path d="M8.71,7.71,11,5.41V15a1,1,0,0,0,2,0V5.41l2.29,2.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42l-4-4a1,1,0,0,0-.33-.21,1,1,0,0,0-.76,0,1,1,0,0,0-.33.21l-4,4A1,1,0,1,0,8.71,7.71ZM21,14a1,1,0,0,0-1,1v4a1,1,0,0,1-1,1H5a1,1,0,0,1-1-1V15a1,1,0,0,0-2,0v4a3,3,0,0,0,3,3H19a3,3,0,0,0,3-3V15A1,1,0,0,0,21,14Z"/></svg></div></icon-shape>';
         scroll = document.createElement('button');
         scroll.innerHtml = "Load videos";
-        scroll.onclock = ()={scroll()};
+        scroll.onclick = scroll();
         buttonrenderer = document.createElement("ytd-button-renderer");
         buttonrenderer.className = "style-scope ytd-playlist-header-renderer";
         bar.appendChild(buttonrenderer);
         shape = buttonrenderer.querySelector('yt-button-shape');
-        shape.appendChild(scroll); 
+        shape.appendChild(scroll);
         tooltip = buttonrenderer.querySelector('tp-yt-paper-tooltip');
         tooltip.innerHTML = '<div id="tooltip" class="style-scope tp-yt-paper-tooltip hidden" style-target="tooltip">Scroll</div>';
         bar.appendChild(scroll)
