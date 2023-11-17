@@ -26,7 +26,7 @@ function exportPlay(title){
     let blob = new Blob([data], {type: 'text/csv'});
     let elem = window.document.createElement('a');
     elem.href = window.URL.createObjectURL(blob);
-    elem.download = '.csv';
+    elem.download = videos[0].replace(/\s/g, '') + '.csv';
     document.body.appendChild(elem);
     elem.click();
     document.body.removeChild(elem);
