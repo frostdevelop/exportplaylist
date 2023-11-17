@@ -18,7 +18,14 @@ function waitForElm(selector) {
     });
 }
 
+function scroll(){
+    var scrolldown = setInterval(() => window.scrollBy(0, 2000), 200);
+};
+
 function exportPlay(title){
+    if(scrolldown){
+        clearInterval(scrolldown);
+    };
     let videos = [];
     videos.push(document.querySelector('yt-formatted-string[class="style-scope yt-dynamic-sizing-formatted-string yt-sans-28"]').innerHTML);
     const links = document.querySelectorAll('a');
@@ -33,7 +40,7 @@ function exportPlay(title){
     let blob = new Blob([data], {type: 'text/csv'});
     let elem = window.document.createElement('a');
     elem.href = window.URL.createObjectURL(blob);
-    elem.download = 'my_data.csv';
+    elem.download = videos[0].replace(/\s/g, '') + '.csv';
     document.body.appendChild(elem);
     elem.click();
     document.body.removeChild(elem);
@@ -43,7 +50,7 @@ waitForElm('div[class="metadata-buttons-wrapper style-scope ytd-playlist-header-
     let bar = document.querySelector('div[class="metadata-buttons-wrapper style-scope ytd-playlist-header-renderer"]');
     let exportb = document.createElement('button');
     exportb.className = classes;
-    exportb.onclick = ()=>{exportPlay(false)};
+    exportb.onclick = exportPlay(false);
     let buttonrenderer = document.createElement("ytd-button-renderer");
     buttonrenderer.className = "style-scope ytd-playlist-header-renderer";
     bar.appendChild(buttonrenderer);
