@@ -113,7 +113,7 @@ chrome.runtime.onMessage.addListener((obj, sender, res)=>{
     url = link;
     if(type === "playlist"){
         page = "playlist";
-        injectplaylist();
+        window.addEventListener("load",injectplaylist);
     }
     else if(type === "video"){
         page = "video";
