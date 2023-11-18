@@ -20,7 +20,7 @@ function waitForElm(selector) {
 }
 
 function scroll(){
- 	var scrolldown = setInterval(() => window.scrollBy(0, 2000), 200);
+ 		var scrolldown = setInterval(() => window.scrollBy(0, 2000), 200);
 }
 
 function exportPlay(title = false){
@@ -51,7 +51,7 @@ waitForElm('div[class="metadata-buttons-wrapper style-scope ytd-playlist-header-
     let bar = document.querySelector('div[class="metadata-buttons-wrapper style-scope ytd-playlist-header-renderer"]');
     let exportb = document.createElement('button');
     exportb.className = classes;
-    exportb.onclick = exportPlay;
+    exportb.onclick = ()=>exportPlay(false);
     let buttonrenderer = document.createElement("ytd-button-renderer");
     buttonrenderer.className = "style-scope ytd-playlist-header-renderer";
     bar.appendChild(buttonrenderer);
