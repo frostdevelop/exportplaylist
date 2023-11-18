@@ -19,15 +19,8 @@ function waitForElm(selector) {
     });
 }
 
-function scroll(enabled=true){
- 	if(enabled==true){
-      console.log("True");
-      var scrolldown = setInterval(() => window.scrollBy(0, 2000), 200);
-    }
-  	else{
-      console.log("False");
-      clearInterval(scrolldown);
-    }
+function scroll(){
+ 		var scrolldown = setInterval(() => window.scrollBy(0, 2000), 200);
 }
 
 function exportPlay(title = false){
@@ -84,10 +77,10 @@ waitForElm('div[class="metadata-buttons-wrapper style-scope ytd-playlist-header-
       	console.log("True");
     		var scrolldown = setInterval(() => window.scrollBy(0, 2000), 200);
     	}
-  	  else{
+  		else{
       	console.log("False");
       	clearInterval(scrolldown);
-      }
+    	}
     };
     buttonrenderer = document.createElement("ytd-button-renderer");
     buttonrenderer.className = "style-scope ytd-playlist-header-renderer";
