@@ -20,7 +20,7 @@ function waitForElm(selector) {
 }
 
 function scroll(){
- 		var scrolldown = setInterval(() => window.scrollBy(0, 2000), 200);
+ 	var scrolldown = setInterval(() => window.scrollBy(0, 2000), 200);
 }
 
 function exportPlay(title = false){
