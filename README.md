@@ -1,2 +1,2 @@
-# exportplaylist
+# Exportplaylist
 Export playlists from youtube
