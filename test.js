@@ -77,7 +77,7 @@ waitForElm('div[class="metadata-buttons-wrapper style-scope ytd-playlist-header-
       if(enable==true){
       	console.log("True");
     		var scrolldown = setInterval(() => window.scrollBy(0, 2000), 200);
-        scrollb.onlick = ()=>{
+        scrollb.onmouseover = ()=>{
           console.log("False");
       		clearInterval(scrolldown);
         };
@@ -86,11 +86,6 @@ waitForElm('div[class="metadata-buttons-wrapper style-scope ytd-playlist-header-
       	console.log("False");
       	clearInterval(scrolldown);
     	}
-    };
-    /*
-  	scrollb.onmouseover = ()=>{
-      console.log("False");
-      clearInterval(scrolldown);
     };
     */
     buttonrenderer = document.createElement("ytd-button-renderer");
