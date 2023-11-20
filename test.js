@@ -54,8 +54,8 @@ waitForElm('div[class="metadata-buttons-wrapper style-scope ytd-playlist-header-
     exportb.onclick = ()=>exportPlay(false);
     let buttonrenderer = document.createElement("ytd-button-renderer");
     buttonrenderer.className = "style-scope ytd-playlist-header-renderer";
-    let menuelm = bar.querySelector('');
-    bar.insertBefore(buttonrenderer, menu);
+    let menuelm = bar.querySelector('ytd-menu-renderer');
+    bar.insertBefore(buttonrenderer, menuelm);
     let tooltip = buttonrenderer.querySelector('tp-yt-paper-tooltip');
     tooltip.innerHTML = '<div id="tooltip" class="style-scope tp-yt-paper-tooltip hidden" style-target="tooltip">Export</div>';
     let shape = buttonrenderer.querySelector('yt-button-shape');
