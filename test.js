@@ -73,7 +73,7 @@ waitForElm('div[class="metadata-buttons-wrapper style-scope ytd-playlist-header-
   	dscrollb.className = classes;
     buttonrenderer = document.createElement("ytd-button-renderer");
     buttonrenderer.className = "style-scope ytd-playlist-header-renderer";
-    bar.appendChild(buttonrenderer);
+    bar.insertbefore(buttonrenderer, menuelm);
     shape = buttonrenderer.querySelector('yt-button-shape');
     shape.appendChild(dscrollb);
     tooltip = buttonrenderer.querySelector('tp-yt-paper-tooltip');
