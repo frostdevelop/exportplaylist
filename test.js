@@ -24,9 +24,7 @@ function scroll(){
 }
 
 function exportPlay(title = false){
-    if(typeof scrolldown != "undefined"){
-        clearInterval(scrolldown);
-    };
+    dscollb.click();
     let videos = [];
     videos.push(document.querySelector('yt-formatted-string[class="style-scope yt-dynamic-sizing-formatted-string yt-sans-28"]').innerHTML);
     const links = document.querySelectorAll('a');
@@ -90,22 +88,33 @@ waitForElm('div[class="metadata-buttons-wrapper style-scope ytd-playlist-header-
     yticon.appendChild(yticonshape);
     yticonshape.innerHTML = '<icon-shape class="yt-spec-icon-shape"><div style="width: 100%; height: 100%; fill: currentcolor;"><svg width="24" height="24" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" focusable="false" style="pointer-events: none; display: block; width: 100%; height: 100%;"><path d="M8,12 C9.10457,12 10,12.8954 10,14 C10,15.1046 9.10457,16 8,16 C6.89543,16 6,15.1046 6,14 C6,12.8954 6.89543,12 8,12 Z M8,-3.10862447e-14 C8.55229,-3.10862447e-14 9,0.447715 9,1 L9,6.58579 L10.2929,5.2929 C10.6834,4.90237 11.3166,4.90237 11.7071,5.2929 C12.0976,5.68342 12.0976,6.31658 11.7071,6.70711 L8,10.4142 L4.29289,6.70711 C3.90237,6.31658 3.90237,5.68342 4.29289,5.2929 C4.68342,4.90237 5.31658,4.90237 5.70711,5.2929 L7,6.58579 L7,1 C7,0.447715 7.44772,-3.10862447e-14 8,-3.10862447e-14 Z"/></svg></div></icon-shape>';
   
-  let scrollb = document.createElement('button');
+    let scrollb = document.createElement('button');
   	scrollb.className = classes;
+    /*
     scrollb.onclick = ()=>{
-      if(enable==true){
-      	console.log("True");
-    		var scrolldown = setInterval(() => window.scrollBy(0, 2000), 200);
-        dscrollb.onclick = ()=>{
-          console.log("False");
-      		clearInterval(scrolldown);
-        };
-        enable = false;
+        if(enable==true){
+      	    console.log("True");
+    	    var scrolldown = setInterval(() => window.scrollBy(0, 2000), 200);
+            dscrollb.onclick = ()=>{
+              console.log("False");
+      		    clearInterval(scrolldown);
+            };
+            enable = false;
     	}
   		else{
       	console.log("False");
       	clearInterval(scrolldown);
     	}
+    };
+    */
+    scrollb.onclick = ()=>{
+        console.log("True");
+    	var scrolldown = setInterval(() => window.scrollBy(0, 2000), 200);
+  		if(enable == false){
+      	    console.log("False");
+      	    clearInterval(scrolldown);
+    	}
+        enable = enable ? false : true;
     };
     buttonrenderer = document.createElement("ytd-button-renderer");
     buttonrenderer.className = "style-scope ytd-playlist-header-renderer";
