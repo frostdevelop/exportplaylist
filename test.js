@@ -139,5 +139,5 @@ waitForElm('div[class="metadata-buttons-wrapper style-scope ytd-playlist-header-
     scrollb.appendChild(icondiv);
     icondiv.appendChild(yticon);
     yticon.appendChild(yticonshape);
-    yticonshape.innerHTML = '<icon-shape class="yt-spec-icon-shape"><div style="width: 100%; height: 100%; stroke: currentcolor;"><svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" focusable="false" style="pointer-events: none; display: block; width: 100%; height: 100%;"><path d="M8 2L2 8.15625V16L8 22H16L22 16V8.15625L16 2H8Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></icon-shape>';
+    yticonshape.innerHTML = '<icon-shape class="yt-spec-icon-shape"><div style="width: 100%; height: 100%; stroke: currentcolor; fill: none;"><svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" focusable="false" style="pointer-events: none; display: block; width: 100%; height: 100%;"><path d="M8 2L2 8.15625V16L8 22H16L22 16V8.15625L16 2H8Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></icon-shape>';
 });
