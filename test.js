@@ -86,10 +86,10 @@ waitForElm('div[class="metadata-buttons-wrapper style-scope ytd-playlist-header-
     dscrollb.appendChild(icondiv);
     icondiv.appendChild(yticon);
     yticon.appendChild(yticonshape);
-    yticonshape.innerHTML = '<path d="M8 2L2 8.15625V16L8 22H16L22 16V8.15625L16 2H8Z" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M16 12L12 12L8 12" stroke="#000000" stroke-width="2" stroke-linecap="round"/>';  
+    yticonshape.innerHTML = '<path d="M8 2L2 8.15625V16L8 22H16L22 16V8.15625L16 2H8Z" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M16 12L12 12L8 12" stroke="#000000" stroke-width="2" stroke-linecap="round"/>';  
     let scrollb = document.createElement('button');
   	scrollb.className = classes;
+    
     /*
     scrollb.onclick = ()=>{
         if(enable==true){
