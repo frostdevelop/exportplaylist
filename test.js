@@ -110,11 +110,11 @@ waitForElm('div[class="metadata-buttons-wrapper style-scope ytd-playlist-header-
     scrollb.onclick = ()=>{
     	var scrolldown = setInterval(() => window.scrollBy(0, 2000), 200);
       dscrollb.addEventListener("click", ()=>{
-      	console.log("False");
+      	console.log(false);
       	clearInterval(scrolldown);
       }, false);
       if(enable == true){
-        console.log("True");
+        console.log(true);
         enable = false;
       }
   		else{
