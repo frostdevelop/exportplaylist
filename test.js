@@ -45,7 +45,7 @@ let classes = "yt-spec-button-shape-next yt-spec-button-shape-next--tonal yt-spe
 waitForElm('div[class="metadata-buttons-wrapper style-scope ytd-playlist-header-renderer"]').then(()=>{
     function scroll(){
       console.log(true);
-      var scrolldown = setInterval(() => window.scrollBy(0, 2000), 200);
+      var scrolldown = setInterval(() => window.scrollBy(0, 10000), 200);
       /*
       dscrollb.addEventListener("click", ()=>{
       	console.log(false);
@@ -104,25 +104,6 @@ waitForElm('div[class="metadata-buttons-wrapper style-scope ytd-playlist-header-
     */
     let scrollb = document.createElement('button');
     scrollb.className = classes;
-    
-    /*
-    scrollb.onclick = ()=>{
-        if(enable==true){
-      	    console.log("True");
-    	    var scrolldown = setInterval(() => window.scrollBy(0, 2000), 200);
-            dscrollb.onclick = ()=>{
-              console.log("False");
-      		    clearInterval(scrolldown);
-            };
-            enable = false;
-    	}
-  		else{
-      	console.log("False");
-      	clearInterval(scrolldown);
-    	}
-    };
-    */
-    
     scrollb.addEventListener("click", scroll, {once: true});
     
     buttonrenderer = document.createElement("ytd-button-renderer");
