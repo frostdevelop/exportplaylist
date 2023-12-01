@@ -20,7 +20,7 @@ function waitForElm(selector) {
 }
 
 function exportPlay(title = false){
-    dscollb.click();
+    //dscollb.click();
     let videos = [];
     videos.push(document.querySelector('yt-formatted-string[class="style-scope yt-dynamic-sizing-formatted-string yt-sans-28"]').innerHTML);
     const links = document.querySelectorAll('a');
@@ -44,14 +44,15 @@ function exportPlay(title = false){
 let classes = "yt-spec-button-shape-next yt-spec-button-shape-next--tonal yt-spec-button-shape-next--overlay yt-spec-button-shape-next--size-m yt-spec-button-shape-next--icon-button";
 waitForElm('div[class="metadata-buttons-wrapper style-scope ytd-playlist-header-renderer"]').then(()=>{
     function scroll(){
-      console.log(false);
+      console.log(true);
       var scrolldown = setInterval(() => window.scrollBy(0, 2000), 200);
+      /*
       dscrollb.addEventListener("click", ()=>{
       	console.log(false);
       	clearInterval(scrolldown);
         scrollb.addEventListener("click", scroll, {once: true});
       }, { once: true });
-
+			*/
       scrollb.addEventListener("click", ()=>{
         console.log("Toggled false");
         clearInterval(scrolldown);
@@ -81,7 +82,7 @@ waitForElm('div[class="metadata-buttons-wrapper style-scope ytd-playlist-header-
     icondiv.appendChild(yticon);
     yticon.appendChild(yticonshape);
     yticonshape.innerHTML = '<icon-shape class="yt-spec-icon-shape"><div style="width: 100%; height: 100%; fill: currentcolor;"><svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" focusable="false" style="pointer-events: none; display: block; width: 100%; height: 100%;"><path d="M8.71,7.71,11,5.41V15a1,1,0,0,0,2,0V5.41l2.29,2.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42l-4-4a1,1,0,0,0-.33-.21,1,1,0,0,0-.76,0,1,1,0,0,0-.33.21l-4,4A1,1,0,1,0,8.71,7.71ZM21,14a1,1,0,0,0-1,1v4a1,1,0,0,1-1,1H5a1,1,0,0,1-1-1V15a1,1,0,0,0-2,0v4a3,3,0,0,0,3,3H19a3,3,0,0,0,3-3V15A1,1,0,0,0,21,14Z"/></svg></div></icon-shape>';
-    
+    /*
     let dscrollb = document.createElement('button');
     dscrollb.className = classes;
     buttonrenderer = document.createElement("ytd-button-renderer");
@@ -100,6 +101,7 @@ waitForElm('div[class="metadata-buttons-wrapper style-scope ytd-playlist-header-
     icondiv.appendChild(yticon);
     yticon.appendChild(yticonshape);
     yticonshape.innerHTML = '<icon-shape class="yt-spec-icon-shape"><div style="width: 100%; height: 100%; stroke: currentcolor; fill: none;"><svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" focusable="false" style="pointer-events: none; display: block; width: 100%; height: 100%;"><path d="M8 2L2 8.15625V16L8 22H16L22 16V8.15625L16 2H8Z" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div></icon-shape>';
+    */
     let scrollb = document.createElement('button');
     scrollb.className = classes;
     
