@@ -20,8 +20,18 @@ function waitForElm(selector) {
 }
 
 function scroll(){
- 		var scrolldown = setInterval(() => window.scrollBy(0, 2000), 200);
-}
+ 	  var scrolldown = setInterval(() => window.scrollBy(0, 2000), 200);
+      dscrollb.addEventListener("click", ()=>{
+      	console.log(false);
+      	clearInterval(scrolldown);
+      }, false);
+
+      scrollb.addEventListener("click", ()=>{
+        console.log("Toggled false");
+        clearInterval(scrolldown);
+        scrollb.addEventListener("click", scroll, {once: true});
+      }, { once: true });
+};
 
 function exportPlay(title = false){
     dscollb.click();
@@ -44,12 +54,13 @@ function exportPlay(title = false){
     elem.click();
     document.body.removeChild(elem);
 }
+
 let classes = "yt-spec-button-shape-next yt-spec-button-shape-next--tonal yt-spec-button-shape-next--overlay yt-spec-button-shape-next--size-m yt-spec-button-shape-next--icon-button";
 waitForElm('div[class="metadata-buttons-wrapper style-scope ytd-playlist-header-renderer"]').then(()=>{
     let bar = document.querySelector('div[class="metadata-buttons-wrapper style-scope ytd-playlist-header-renderer"]');
     let exportb = document.createElement('button');
     exportb.className = classes;
-    exportb.onclick = ()=>exportPlay(false);
+    exportb.onclick = () => exportPlay(false);
     let buttonrenderer = document.createElement("ytd-button-renderer");
     buttonrenderer.className = "style-scope ytd-playlist-header-renderer";
     let menuelm = bar.querySelector('ytd-menu-renderer');
@@ -107,6 +118,7 @@ waitForElm('div[class="metadata-buttons-wrapper style-scope ytd-playlist-header-
     	}
     };
     */
+    /*
     scrollb.addEventListener("click", ()=>{
       var scrolldown = setInterval(() => window.scrollBy(0, 2000), 200);
       dscrollb.addEventListener("click", ()=>{
@@ -118,7 +130,7 @@ waitForElm('div[class="metadata-buttons-wrapper style-scope ytd-playlist-header-
         console.log("Toggled false");
         clearInterval(scrolldown);
       }, { once: true });
-      /*
+      
       if(enable == true){
         console.log(true);
         enable = false;
@@ -128,10 +140,14 @@ waitForElm('div[class="metadata-buttons-wrapper style-scope ytd-playlist-header-
       	clearInterval(scrolldown);
         enable = true;
       };
-      */
+      
       //enable = enable ? false : true;
       
     }, { once: true });
+    */
+
+    scrollb.addEventListener("click", scroll, {once: true});
+    
     buttonrenderer = document.createElement("ytd-button-renderer");
     buttonrenderer.className = "style-scope ytd-playlist-header-renderer";
     bar.insertBefore(buttonrenderer, menuelm);
