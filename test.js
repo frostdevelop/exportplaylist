@@ -49,7 +49,8 @@ waitForElm('div[class="metadata-buttons-wrapper style-scope ytd-playlist-header-
       dscrollb.addEventListener("click", ()=>{
       	console.log(false);
       	clearInterval(scrolldown);
-      }, false);
+        scrollb.addEventListener("click", scroll, {once: true});
+      }, { once: true });
 
       scrollb.addEventListener("click", ()=>{
         console.log("Toggled false");
