@@ -113,8 +113,12 @@ waitForElm('div[class="metadata-buttons-wrapper style-scope ytd-playlist-header-
       	console.log(false);
       	clearInterval(scrolldown);
       }, false);
-      
-      
+
+      scrollb.addEventListener("click", ()=>{
+        console.log("Toggled false");
+        clearInterval(scrolldown);
+      }, { once: true });
+      /*
       if(enable == true){
         console.log(true);
         enable = false;
@@ -124,10 +128,10 @@ waitForElm('div[class="metadata-buttons-wrapper style-scope ytd-playlist-header-
       	clearInterval(scrolldown);
         enable = true;
       };
-      
+      */
       //enable = enable ? false : true;
       
-    }, false);
+    }, { once: true });
     buttonrenderer = document.createElement("ytd-button-renderer");
     buttonrenderer.className = "style-scope ytd-playlist-header-renderer";
     bar.insertBefore(buttonrenderer, menuelm);
