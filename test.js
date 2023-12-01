@@ -107,23 +107,27 @@ waitForElm('div[class="metadata-buttons-wrapper style-scope ytd-playlist-header-
     	}
     };
     */
-    scrollb.onclick = ()=>{
-    	var scrolldown = setInterval(() => window.scrollBy(0, 2000), 200);
+    scrollb.addEventListener("click", ()=>{
+      var scrolldown = setInterval(() => window.scrollBy(0, 2000), 200);
       dscrollb.addEventListener("click", ()=>{
       	console.log(false);
       	clearInterval(scrolldown);
       }, false);
+      
+      
       if(enable == true){
         console.log(true);
         enable = false;
       }
-  		else{
-      	    console.log("False");
-      	    clearInterval(scrolldown);
-        		enable = true;
-    	};
+  	  else{
+      	console.log("Toggled false");
+      	clearInterval(scrolldown);
+        enable = true;
+      };
+      
       //enable = enable ? false : true;
-    };
+      
+    }, false);
     buttonrenderer = document.createElement("ytd-button-renderer");
     buttonrenderer.className = "style-scope ytd-playlist-header-renderer";
     bar.insertBefore(buttonrenderer, menuelm);
