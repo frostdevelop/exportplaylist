@@ -19,20 +19,6 @@ function waitForElm(selector) {
     });
 }
 
-function scroll(){
- 	  var scrolldown = setInterval(() => window.scrollBy(0, 2000), 200);
-      dscrollb.addEventListener("click", ()=>{
-      	console.log(false);
-      	clearInterval(scrolldown);
-      }, false);
-
-      scrollb.addEventListener("click", ()=>{
-        console.log("Toggled false");
-        clearInterval(scrolldown);
-        scrollb.addEventListener("click", scroll, {once: true});
-      }, { once: true });
-};
-
 function exportPlay(title = false){
     dscollb.click();
     let videos = [];
@@ -145,7 +131,19 @@ waitForElm('div[class="metadata-buttons-wrapper style-scope ytd-playlist-header-
       
     }, { once: true });
     */
+		function scroll(){
+ 	  	var scrolldown = setInterval(() => window.scrollBy(0, 2000), 200);
+      dscrollb.addEventListener("click", ()=>{
+      	console.log(false);
+      	clearInterval(scrolldown);
+      }, false);
 
+      scrollb.addEventListener("click", ()=>{
+        console.log("Toggled false");
+        clearInterval(scrolldown);
+        scrollb.addEventListener("click", scroll, {once: true});
+      }, { once: true });
+		};
     scrollb.addEventListener("click", scroll, {once: true});
     
     buttonrenderer = document.createElement("ytd-button-renderer");
