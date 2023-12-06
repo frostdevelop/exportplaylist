@@ -48,6 +48,7 @@ waitForElm('div[class="metadata-buttons-wrapper style-scope ytd-playlist-header-
       var scrolldown = setInterval(() => {
         window.scrollBy(0, 10000);
         if(document.querySelector('div[id="contents"][class=" style-scope ytd-playlist-video-list-renderer style-scope ytd-playlist-video-list-renderer"]').querySelector('ytd-continuation-item-renderer') === null){
+          exportPlay(false);
           scrollb.click();
         }
       }, 200);
