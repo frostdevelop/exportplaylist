@@ -45,7 +45,12 @@ let classes = "yt-spec-button-shape-next yt-spec-button-shape-next--tonal yt-spe
 waitForElm('div[class="metadata-buttons-wrapper style-scope ytd-playlist-header-renderer"]').then(()=>{
     function scroll(){
       console.log(true);
-      var scrolldown = setInterval(() => window.scrollBy(0, 10000), 200);
+      var scrolldown = setInterval(() => {
+        window.scrollBy(0, 10000);
+        if(document.querySelector('div[id="contents"][class=" style-scope ytd-playlist-video-list-renderer style-scope ytd-playlist-video-list-renderer"]').querySelector('ytd-continuation-item-renderer') === null){
+          scrollb.click();
+        }
+      }, 200);
       /*
       dscrollb.addEventListener("click", ()=>{
       	console.log(false);
