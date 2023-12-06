@@ -20,7 +20,7 @@ function waitForElm(selector) {
 
 function exportPlay(title = false){
     let videos = [];
-    videos.push(document.querySelector('yt-formatted-string[class="style-scope yt-dynamic-sizing-formatted-string yt-sans-28"]').innerHTML);
+    videos.push(document.querySelector('div[class="dynamic-text-container style-scope yt-dynamic-sizing-formatted-string"]').querySelector('yt-formatted-string').innerHTML);
     const links = document.querySelectorAll('a');
     for (const link of links) {
         if (link.id === "video-title") {
