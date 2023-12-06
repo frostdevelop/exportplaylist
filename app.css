@@ -16,7 +16,6 @@ html, body {
 }
 
 .container {
-  padding: 0px 0px 40px 0px;
   width: 500px;
 }
 
@@ -41,7 +40,13 @@ header {
   background: linear-gradient(to left top, #f79817, #ffb042);
 }
 
-button {
+.button {
+  display: inline-flex;
+  flex-direction: row;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  cursor: pointer;
   font-family: Arial, sans-serif;
   background: linear-gradient(to left top, #121212, #292929);
   color: currentColor;
@@ -55,14 +60,18 @@ button {
   width: 250px;
 }
 
-button:hover {
+.button:hover {
   border-color: var(--hover);
 }
   
-button:active {
+.button:active {
   box-shadow: 2px 2px 5px rgba(0,0,0,0.7) inset, -2px -2px 5px rgba(240,240,240,0.3) inset;
   border-color: rgba(0,0,0,0);
   background: linear-gradient(to left top, #292929, #121212);
+}
+
+input[type="file"] {
+  display: none;
 }
 
 input {
@@ -94,19 +103,17 @@ input:active {
   box-shadow: none !important;
 }
 
-label {
-  font-size: 20px;
-}
-
 #mainheader {
   font-size: 20px;
-  margin: 15px 0px;
   text-align: left;
+}
+
+.indent {
+  margin: 15px 0px;
 }
 
 h2 {
   font-size: 30px;
-  margin: 15px 0px;
   font-weight: 600;
 }
 
@@ -125,10 +132,38 @@ h3 {
 }
 
 hr {
-  border-color: #000000;
+  border-color: #3d3d3d;
 }
 
 .iconbutton {
   width: 65px;
   height: 65px;
+}
+
+.icon {
+  display: inline;
+  margin: 0px 10px 0px 0px;
+  height: 25px;
+  width: 25px;
+}
+
+.buttonicon {
+  width: 30px;
+  height: 30px;
+}
+
+label.iconbutton {
+  height: 30px !important;
+  width: 30px !important;
+}
+
+.center-container-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+footer {
+  margin: 20px
 }
