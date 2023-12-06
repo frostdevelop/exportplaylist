@@ -1,4 +1,3 @@
-var enable = true;
 function waitForElm(selector) {
     return new Promise(resolve => {
         if (document.querySelector(selector)) {
@@ -20,7 +19,6 @@ function waitForElm(selector) {
 }
 
 function exportPlay(title = false){
-    //dscollb.click();
     let videos = [];
     videos.push(document.querySelector('yt-formatted-string[class="style-scope yt-dynamic-sizing-formatted-string yt-sans-28"]').innerHTML);
     const links = document.querySelectorAll('a');
@@ -44,23 +42,29 @@ function exportPlay(title = false){
 let classes = "yt-spec-button-shape-next yt-spec-button-shape-next--tonal yt-spec-button-shape-next--overlay yt-spec-button-shape-next--size-m yt-spec-button-shape-next--icon-button";
 waitForElm('div[class="metadata-buttons-wrapper style-scope ytd-playlist-header-renderer"]').then(()=>{
     function scroll(){
-      console.log(true);
+      /*
       var scrolldown = setInterval(() => {
-        window.scrollBy(0, 10000);
-        /*
+
         if(document.querySelector('div[id="contents"][class=" style-scope ytd-playlist-video-list-renderer style-scope ytd-playlist-video-list-renderer"]').querySelector('ytd-continuation-item-renderer') === null){
           exportPlay(false);
           scrollb.click();
         }
-        */
+
+        window.scrollBy(0, 10000);
       }, 200);
-      
+      */
+
+      //window.scrollBy(0, 50000);
+      document.querySelector('div[id="contents"][class=" style-scope ytd-playlist-video-list-renderer style-scope ytd-playlist-video-list-renderer"]').querySelector('ytd-continuation-item-renderer').scrollIntoView();
       const endobserver = new MutationObserver(mutations => {
-        console.log("sent")
+        console.log("sent");
         if(document.querySelector('div[id="contents"][class=" style-scope ytd-playlist-video-list-renderer style-scope ytd-playlist-video-list-renderer"]').querySelector('ytd-continuation-item-renderer') === null){
           endobserver.disconnect();
-          console.log("detectedend")
+          console.log("detectedend");
+          exportPlay(false);
+          scrollb.click();
         };
+        document.querySelector('div[id="contents"][class=" style-scope ytd-playlist-video-list-renderer style-scope ytd-playlist-video-list-renderer"]').querySelector('ytd-continuation-item-renderer').scrollIntoView();
       });
       endobserver.observe(document.querySelector('div[id="contents"][class=" style-scope ytd-playlist-video-list-renderer style-scope ytd-playlist-video-list-renderer"]'), {
           childList: true,
@@ -83,7 +87,7 @@ waitForElm('div[class="metadata-buttons-wrapper style-scope ytd-playlist-header-
 
     let bar = document.querySelector('div[class="metadata-buttons-wrapper style-scope ytd-playlist-header-renderer"]');
     let menuelm = bar.querySelector('ytd-menu-renderer');
-  
+
     let scrollb = document.createElement('button');
     scrollb.className = classes;
     scrollb.addEventListener("click", scroll, {once: true});
