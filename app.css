@@ -1,34 +1,134 @@
 html, body {
-  font-family: Arial, sans-serif;
-  background: #121212;
-  color: #f79817;
+  font-family: 'Raleway', Arial, sans-serif;
+  background: linear-gradient(to top, #212121, #292929);
+  background-size: cover;
+  text-align: center;
+  color: #d6d6d6;
+  padding: none;
+  margin: none;
+  text-shadow: 0px 0px 5px rgba(0,0,0,0.7);
+}
+
+:root {
+  --hover: #4f4f4f;
+  --border: 3px;
+  --radius: 45px;
+}
+
+.container {
+  padding: 0px 0px 40px 0px;
+  width: 500px;
+}
+
+header {
+  text-align: left;
 }
 
 .formcontainer {
-  box-shadow: 0px 0px 5px black;
-  background: #1c1c1c;
+  background: #212121;
+  padding: 0px 0px 40px 0px;
+  width: 500px;
+  margin: 10px 0px;
+  border-radius: var(--radius);
+  box-shadow: 2px 2px 5px rgba(0,0,0,0.7), -2px -2px 5px rgba(240,240,240,0.3);
+}
+
+.formcontainer header {
+  text-align: left;
+}
+
+.colors {
+  background: linear-gradient(to left top, #f79817, #ffb042);
 }
 
 button {
   font-family: Arial, sans-serif;
-  background: #f79817;
-  color: black;
-  box-shadow: 0px 0px 0px black;
-  transition: box-shadow 500ms ease;
+  background: linear-gradient(to left top, #121212, #292929);
+  color: currentColor;
+  border: var(--border) #292929 solid;
+  box-shadow: 2px 2px 5px rgba(0,0,0,0.7), -2px -2px 5px rgba(240,240,240,0.3);
+  transition: box-shadow 500ms ease, border 500ms ease;
+  font-size: 20px;
+  padding: 15px;
+  margin: 10px;
+  border-radius: var(--radius);
+  width: 250px;
 }
 
 button:hover {
-  box-shadow: 0px 0px 5px black;
+  border-color: var(--hover);
+}
+  
+button:active {
+  box-shadow: 2px 2px 5px rgba(0,0,0,0.7) inset, -2px -2px 5px rgba(240,240,240,0.3) inset;
+  border-color: rgba(0,0,0,0);
+  background: linear-gradient(to left top, #292929, #121212);
 }
 
 input {
+  transition: box-shadow 500ms ease, border 500ms ease;
   font-family: Arial, sans-serif;
-  background: #f79817;
-  color: black;
+  background: linear-gradient(to left top, #121212, #292929);
+  color: currentColor;
+  font-size: 20px;
+  padding: 15px;
+  margin: 10px;
+  border: var(--border) #292929 solid;
+  border-radius: var(--radius);
+  box-shadow: 2px 2px 5px rgba(0,0,0,0.7), -2px -2px 5px rgba(240,240,240,0.3);
+}
+
+input:hover {
+  border-color: var(--hover);
+}
+
+input:active {
+  box-shadow: 2px 2px 5px rgba(0,0,0,0.7) inset, -2px -2px 5px rgba(240,240,240,0.3) inset;
+  border-color: rgba(0,0,0,0);
+  background: linear-gradient(to left top, #292929, #121212);
 }
 
 .disabled {
   background: #ffcb85 !important;
   color: #595959 !important;
   box-shadow: none !important;
+}
+
+label {
+  font-size: 20px;
+}
+
+#mainheader {
+  font-size: 20px;
+  margin: 15px 0px;
+  text-align: left;
+}
+
+h2 {
+  font-size: 30px;
+  margin: 15px 0px;
+  font-weight: 600;
+}
+
+h3 {
+  color: #bfbfbf;
+  font-weight: 500;
+  font-size: 25px;
+  margin: 5px;
+}
+
+#content {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+hr {
+  border-color: #000000;
+}
+
+.iconbutton {
+  width: 65px;
+  height: 65px;
 }
