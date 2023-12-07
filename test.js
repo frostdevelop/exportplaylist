@@ -42,25 +42,11 @@ function exportPlay(title = false){
 let classes = "yt-spec-button-shape-next yt-spec-button-shape-next--tonal yt-spec-button-shape-next--overlay yt-spec-button-shape-next--size-m yt-spec-button-shape-next--icon-button";
 waitForElm('div[class="metadata-buttons-wrapper style-scope ytd-playlist-header-renderer"]').then(()=>{
     function scroll(){
-      /*
-      var scrolldown = setInterval(() => {
-
-        if(document.querySelector('div[id="contents"][class=" style-scope ytd-playlist-video-list-renderer style-scope ytd-playlist-video-list-renderer"]').querySelector('ytd-continuation-item-renderer') === null){
-          exportPlay(false);
-          scrollb.click();
-        }
-
-        window.scrollBy(0, 10000);
-      }, 200);
-      */
-
-      //window.scrollBy(0, 50000);
       document.querySelector('div[id="contents"][class=" style-scope ytd-playlist-video-list-renderer style-scope ytd-playlist-video-list-renderer"]').querySelector('ytd-continuation-item-renderer').scrollIntoView();
       const endobserver = new MutationObserver(mutations => {
-        console.log("sent");
         if(document.querySelector('div[id="contents"][class=" style-scope ytd-playlist-video-list-renderer style-scope ytd-playlist-video-list-renderer"]').querySelector('ytd-continuation-item-renderer') === null){
           endobserver.disconnect();
-          console.log("detectedend");
+          console.log("disconnect");
           exportPlay(false);
           scrollb.click();
         };
@@ -79,7 +65,7 @@ waitForElm('div[class="metadata-buttons-wrapper style-scope ytd-playlist-header-
       }, { once: true });
       */
       scrollb.addEventListener("click", ()=>{
-        console.log("Toggled false");
+        console.log(false);
         clearInterval(scrolldown);
         scrollb.addEventListener("click", scroll, {once: true});
       }, { once: true });
@@ -98,7 +84,7 @@ waitForElm('div[class="metadata-buttons-wrapper style-scope ytd-playlist-header-
     let shape = buttonrenderer.querySelector('yt-button-shape');
     shape.appendChild(scrollb);
     let tooltip = buttonrenderer.querySelector('tp-yt-paper-tooltip');
-    tooltip.innerHTML = '<div id="tooltip" class="style-scope tp-yt-paper-tooltip hidden" style-target="tooltip">Scroll</div>';
+    tooltip.innerHTML = '<div id="tooltip" class="style-scope tp-yt-paper-tooltip hidden" style-target="tooltip">Export</div>';
     let icondiv = document.createElement("div");
     icondiv.className = 'yt-spec-button-shape-next__icon';
     let yticon = document.createElement("yt-icon");
