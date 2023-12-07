@@ -15,8 +15,8 @@ html, body {
   --radius: 45px;
 }
 
-.container {
-  width: 500px;
+.maincontainer {
+  width: 100vmin;
 }
 
 header {
@@ -63,7 +63,7 @@ header {
 .button:hover {
   border-color: var(--hover);
 }
-  
+
 .button:active {
   box-shadow: 2px 2px 5px rgba(0,0,0,0.7) inset, -2px -2px 5px rgba(240,240,240,0.3) inset;
   border-color: rgba(0,0,0,0);
@@ -91,7 +91,7 @@ input:hover {
   border-color: var(--hover);
 }
 
-input:active {
+input:active, input[type="text"]:focus {
   box-shadow: 2px 2px 5px rgba(0,0,0,0.7) inset, -2px -2px 5px rgba(240,240,240,0.3) inset;
   border-color: rgba(0,0,0,0);
   background: linear-gradient(to left top, #292929, #121212);
@@ -109,7 +109,7 @@ input:active {
 }
 
 .indent {
-  margin: 15px 0px;
+  margin: 10px 10px;
 }
 
 h2 {
@@ -157,6 +157,10 @@ label.iconbutton {
   width: 30px !important;
 }
 
+label {
+  font-weight: 600;
+}
+
 .center-container-row {
   display: flex;
   flex-direction: row;
@@ -164,6 +168,97 @@ label.iconbutton {
   align-items: center;
 }
 
+.contanter-padding {
+  margin: 5px;
+  align-items: left;
+}
+
 footer {
   margin: 20px
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 30px;
+  margin: 0px 10px 0px 0px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(to left top, #8c8c8c, #b0b0b0);
+  box-shadow: 2px 2px 3px rgba(0,0,0,0.7), -2px -2px 3px rgba(240,240,240,0.3);
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 25px;
+  width: 25px;
+  left: 3px;
+  bottom: 3px;
+  background: linear-gradient(to left top, #babababa, #d1d1d1);
+  box-shadow: 2px 2px 5px rgba(0,0,0,0.7), -2px -2px 5px rgba(240,240,240,0.3);
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.switch input:checked + .slider {
+  background: linear-gradient(to right bottom, #424242, #6b6b6b);
+}
+
+.switch input:hover + .slider {
+  box-shadow: 2px 2px 5px rgba(0,0,0,0.7) inset, -2px -2px 5px rgba(240,240,240,0.3) inset;
+}
+
+.switch input:checked + .slider:before {
+  -webkit-transform: translateX(19px);
+  -ms-transform: translateX(19px);
+  transform: translateX(19px);
+}
+
+.slider.round {
+   border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+.vl {
+  display: inline;
+  border: 1px outset #3d3d3d;
+  height: 25px;
+  width: 0px;
+}
+
+.sliderlabel {
+  margin: 5px;
+  text-align: left;
+}
+
+.slidercontainer {
+  display: flex;
+  justify-content: left;
+  margin: 7px;
+}
+
+.center-container-column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
