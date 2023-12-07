@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<head>
+<head lang="en">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
   <title>ExList</title>
@@ -11,8 +11,11 @@
 </head>
 <body>
   <div id="content">
-  <div class="container">
+  <div class="maincontainer">
+  <div class="section" id="mainheader">
   <h1 id="mainheader" class="indent">ExList</h1>
+  </div>
+  <div class="section">
   <header><h2 class="indent">Export Playlist</h2></header>
   <button id="bsdown" title="Scroll" class="iconbutton button">
     <svg class="buttonicon" viewBox="0 0 30 30" xmlns="http://www.w3.org/2000/svg" fill="currentcolor">
@@ -32,13 +35,33 @@
     </svg>
   </button>
   <br/>
-  <input type="checkbox" name="Ename" id="cexti">
-  <label for="Ename">Export Titles (Doesn't import)</label>
-  <hr>
+  <div class="center-container-column">
+  <div class="formcontainernew">
+  <div class="slidercontainer">
+  <label class="switch">
+    <input type="checkbox" name="Ename" id="cexti">
+    <span class="slider round"></span>
+  </label>
+  <div class="vl"></div>
+  <label for="Ename" title="Adds titles to the output file. This does not import back though." class="sliderlabel">Export Titles</label>
+  </div>
+  <div class="slidercontainer">
+  <label class="switch">
+    <input type="checkbox" name="Ename" id="cexti">
+    <span class="slider round"></span>
+  </label>
+  <div class="vl"></div>
+  <label for="Ename" title="Export your playlist after scrolling is finished" class="sliderlabel">Auto Export</label>
+  </div>
+  </div>
+  </div>
+  </div>
+  <div class="section"><hr></div>
+  <div class="section">
   <header><h2 class="indent">Import Playlist</h2></header>
   <h3>Playlist File (.csv)</h3>
   <div class="center-container-row">
-  <input type="file" id="inputfile" accept=".csv, .txt">
+  <input type="file" id="inputfile" accept=".csv, .txt"/>
   <label for="inputfile" class="iconbutton button" title="Upload Playlist">
     <svg class="buttonicon" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"  fill="currentcolor">
       <g>
@@ -51,6 +74,7 @@
   <button id="bstarti" class="button">
     Start Import
   </button>
+  </div>
   </div>
   </div>
   <footer>Made by Pacifiky</footer>
