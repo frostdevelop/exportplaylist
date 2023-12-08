@@ -4,21 +4,16 @@ html, body {
   background-size: cover;
   text-align: center;
   color: #d6d6d6;
-  padding: none;
-  margin: none;
+  padding: 0px;
+  margin: 0px;
   text-shadow: 0px 0px 5px rgba(0,0,0,0.7);
-  height: 800px;
-  width: 450px;
+  width: 320px;
 }
 
 :root {
   --hover: #4f4f4f;
   --border: 3px;
   --radius: 45px;
-}
-
-.maincontainer {
-  width: 100vmin;
 }
 
 header {
@@ -55,11 +50,11 @@ header {
   border: var(--border) #292929 solid;
   box-shadow: 2px 2px 5px rgba(0,0,0,0.7), -2px -2px 5px rgba(240,240,240,0.3);
   transition: box-shadow 500ms ease, border 500ms ease;
-  font-size: 20px;
-  padding: 15px;
-  margin: 10px;
+  font-size: 15px;
+  padding: 10px;
+  margin: 5px;
   border-radius: var(--radius);
-  width: 250px;
+  width: 200px;
 }
 
 .button:hover {
@@ -81,9 +76,9 @@ input {
   font-family: Arial, sans-serif;
   background: linear-gradient(to left top, #121212, #292929);
   color: currentColor;
-  font-size: 20px;
-  padding: 15px;
-  margin: 10px;
+  font-size: 15px;
+  padding: 12px;
+  margin: 5px;
   border: var(--border) #292929 solid;
   border-radius: var(--radius);
   box-shadow: 2px 2px 5px rgba(0,0,0,0.7), -2px -2px 5px rgba(240,240,240,0.3);
@@ -106,23 +101,23 @@ input:active, input[type="text"]:focus {
 }
 
 #mainheader {
-  font-size: 20px;
+  font-size: 15px;
   text-align: left;
 }
 
 .indent {
-  margin: 10px 10px;
+  margin: 5px 5px;
 }
 
 h2 {
-  font-size: 30px;
+  font-size: 25px;
   font-weight: 600;
 }
 
 h3 {
   color: #bfbfbf;
   font-weight: 500;
-  font-size: 25px;
+  font-size: 18px;
   margin: 5px;
 }
 
@@ -138,20 +133,19 @@ hr {
 }
 
 .iconbutton {
-  width: 65px;
-  height: 65px;
+  width: 54px;
+  height: 54px;
 }
 
 .icon {
   display: inline;
-  margin: 0px 10px 0px 0px;
-  height: 25px;
-  width: 25px;
+  height: 30px;
+  width: 30px;
 }
 
 .buttonicon {
-  width: 30px;
-  height: 30px;
+  width: 25px;
+  height: 25px;
 }
 
 label.iconbutton {
@@ -176,7 +170,7 @@ label {
 }
 
 footer {
-  margin: 20px
+  margin: 10px
 }
 
 .switch {
@@ -184,7 +178,7 @@ footer {
   display: inline-block;
   width: 50px;
   height: 30px;
-  margin: 0px 10px 0px 0px;
+  margin: 0px 5px 0px 0px;
 }
 
 .switch input {
@@ -257,6 +251,7 @@ footer {
   display: flex;
   justify-content: left;
   margin: 7px;
+  font-size:  15px;
 }
 
 .center-container-column {
