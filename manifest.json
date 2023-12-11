@@ -5,7 +5,7 @@
   "description": "Export YouTube playlists!",
   "permissions": ["storage","tabs"],
   "background": {
-    "service_worker": "background.js"
+    "service_worker": "service-worker.js"
   },
   "action": {
     "default_popup": "app.html",
@@ -24,7 +24,7 @@
   "content_scripts": [
     {
       "matches": ["https://www.youtube.com/playlist","https://www.youtube.com/watch"],
-      "js": ["script.js"]
+      "js": ["content-script.js"]
     }
   ]
 }
