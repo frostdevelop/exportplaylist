@@ -12,8 +12,9 @@ html, body {
 
 :root {
   --hover: #4f4f4f;
-  --border: 3px;
+  --border: 1px;
   --radius: 45px;
+  --height: 3px;
 }
 
 header {
@@ -48,13 +49,13 @@ header {
   background: linear-gradient(to left top, #121212, #292929);
   color: currentColor;
   border: var(--border) #292929 solid;
-  box-shadow: 2px 2px 5px rgba(0,0,0,0.7), -2px -2px 5px rgba(240,240,240,0.3);
+  box-shadow: 2px 2px var(--height) rgba(0,0,0,0.7), -2px -2px var(--height) rgba(240,240,240,0.3);
   transition: box-shadow 500ms ease, border 500ms ease;
-  font-size: 15px;
-  padding: 10px;
-  margin: 5px;
+  font-size: 13px;
+  padding: 8px;
+  margin: 4px;
   border-radius: var(--radius);
-  width: 200px;
+  width: 140px;
 }
 
 .button:hover {
@@ -62,7 +63,7 @@ header {
 }
 
 .button:active {
-  box-shadow: 2px 2px 5px rgba(0,0,0,0.7) inset, -2px -2px 5px rgba(240,240,240,0.3) inset;
+  box-shadow: 2px 2px var(--height) rgba(0,0,0,0.7) inset, -2px -2px var(--height) rgba(240,240,240,0.3) inset;
   border-color: rgba(0,0,0,0);
   background: linear-gradient(to left top, #292929, #121212);
 }
@@ -76,12 +77,12 @@ input {
   font-family: Arial, sans-serif;
   background: linear-gradient(to left top, #121212, #292929);
   color: currentColor;
-  font-size: 15px;
-  padding: 12px;
-  margin: 5px;
+  font-size: 13px;
+  padding: 10px;
+  margin: 2px;
   border: var(--border) #292929 solid;
   border-radius: var(--radius);
-  box-shadow: 2px 2px 5px rgba(0,0,0,0.7), -2px -2px 5px rgba(240,240,240,0.3);
+  box-shadow: 2px 2px var(--height) rgba(0,0,0,0.7), -2px -2px var(--height) rgba(240,240,240,0.3);
 }
 
 input:hover {
@@ -89,7 +90,7 @@ input:hover {
 }
 
 input:active, input[type="text"]:focus {
-  box-shadow: 2px 2px 5px rgba(0,0,0,0.7) inset, -2px -2px 5px rgba(240,240,240,0.3) inset;
+  box-shadow: 2px 2px var(--height) rgba(0,0,0,0.7) inset, -2px -2px var(--height) rgba(240,240,240,0.3) inset;
   border-color: rgba(0,0,0,0);
   background: linear-gradient(to left top, #292929, #121212);
 }
@@ -101,24 +102,25 @@ input:active, input[type="text"]:focus {
 }
 
 #mainheader {
-  font-size: 15px;
+  font-size: 12px;
   text-align: left;
+  margin-top: 10px;
 }
 
 .indent {
-  margin: 5px 5px;
+  margin: 5px 10px;
 }
 
 h2 {
-  font-size: 20px;
+  font-size: 17px;
   font-weight: 600;
 }
 
 h3 {
   color: #bfbfbf;
   font-weight: 500;
-  font-size: 15px;
-  margin: 5px;
+  font-size: 12px;
+  margin: 2px;
 }
 
 #content {
@@ -133,24 +135,24 @@ hr {
 }
 
 .iconbutton {
-  width: 54px;
-  height: 54px;
+  width: 45px;
+  height: 45px;
 }
 
 .icon {
   display: inline;
-  height: 30px;
-  width: 30px;
+  height: 25px;
+  width: 25px;
 }
 
 .buttonicon {
-  width: 25px;
-  height: 25px;
+  width: 20px;
+  height: 20px;
 }
 
 label.iconbutton {
-  height: 30px !important;
-  width: 30px !important;
+  height: 25px !important;
+  width: 25px !important;
 }
 
 label {
@@ -178,9 +180,9 @@ footer {
 .switch {
   position: relative;
   display: inline-block;
-  width: 50px;
-  height: 30px;
-  margin: 0px 5px 0px 0px;
+  width: 45px;
+  height: 25px;
+  margin: 0px 3px 0px 0px;
 }
 
 .switch input {
@@ -197,7 +199,7 @@ footer {
   right: 0;
   bottom: 0;
   background: linear-gradient(to left top, #8c8c8c, #b0b0b0);
-  box-shadow: 2px 2px 3px rgba(0,0,0,0.7), -2px -2px 3px rgba(240,240,240,0.3);
+  box-shadow: 2px 2px var(--height) rgba(0,0,0,0.7), -2px -2px var(--height) rgba(240,240,240,0.3);
   -webkit-transition: .4s;
   transition: .4s;
 }
@@ -205,12 +207,12 @@ footer {
 .slider:before {
   position: absolute;
   content: "";
-  height: 25px;
-  width: 25px;
+  height: 20px;
+  width: 20px;
   left: 3px;
   bottom: 3px;
   background: linear-gradient(to left top, #babababa, #d1d1d1);
-  box-shadow: 2px 2px 5px rgba(0,0,0,0.7), -2px -2px 5px rgba(240,240,240,0.3);
+  box-shadow: 2px 2px var(--height) rgba(0,0,0,0.7), -2px -2px var(--height) rgba(240,240,240,0.3);
   -webkit-transition: .4s;
   transition: .4s;
 }
@@ -220,7 +222,7 @@ footer {
 }
 
 .switch input:hover + .slider {
-  box-shadow: 2px 2px 5px rgba(0,0,0,0.7) inset, -2px -2px 5px rgba(240,240,240,0.3) inset;
+  box-shadow: 2px 2px var(--height) rgba(0,0,0,0.7) inset, -2px -2px var(--height) rgba(240,240,240,0.3) inset;
 }
 
 .switch input:checked + .slider:before {
@@ -240,7 +242,7 @@ footer {
 .vl {
   display: inline;
   border: 1px outset #3d3d3d;
-  height: 25px;
+  height: 23px;
   width: 0px;
 }
 
@@ -252,7 +254,7 @@ footer {
 .slidercontainer {
   display: flex;
   justify-content: left;
-  margin: 7px;
+  margin: 5px;
   font-size:  15px;
 }
 
