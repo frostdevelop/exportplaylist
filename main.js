@@ -25,7 +25,7 @@ function ungrey(id){
 
 async function sendMessageToActiveTab(message) {
   const [tab] = await chrome.tabs.query({active: true, lastFocusedWindow: true});
-  const response = await chrome.tabs.sendMessage(tab.id, {greeting: "hello"});
+  const response = await chrome.tabs.sendMessage(tab.id, message);
   // do something with response here, not outside the function
   console.log(response);
 }
