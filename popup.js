@@ -48,28 +48,30 @@ function startImport(arr){
     } 
 }
 
-document.getElementById('bsdown').addEventListener("click",(e)=>{
-    sendMessageToActiveTab({
-        type: "scrolldown",
-        data: {
+document.addEventListener("DOMContentLoaded", () => {
+    document.getElementById('bsdown').addEventListener("click",(e)=>{
+        sendMessageToActiveTab({
+            type: "scrolldown",
+            data: {
             
-        }
-    });
-},false)
-
-document.getElementById('beplay').addEventListener("click",(e)=>{
-    sendMessageToActiveTab({
-        type: "exportplay",
-        data: {
-            title: title,
-        }
-    });
-},false)
-
-document.getElementById('cexti').addEventListener("change",(e)=>{
-    title = !title;
-},false)
-
-document.getElementById('listname').addEventListener("change",(e)=>{
-    listname = document.getElementById('listname').value;
-},false)
+            }
+        });
+    },false)
+    
+    document.getElementById('beplay').addEventListener("click",(e)=>{
+        sendMessageToActiveTab({
+            type: "exportplay",
+            data: {
+                title: title,
+            }
+        });
+    },false)
+    
+    document.getElementById('cexti').addEventListener("change",(e)=>{
+        title = !title;
+    },false)
+    
+    document.getElementById('listname').addEventListener("change",(e)=>{
+        listname = document.getElementById('listname').value;
+    },false)
+})
