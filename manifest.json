@@ -8,7 +8,7 @@
     "service_worker": "service-worker.js"
   },
   "action": {
-    "default_popup": "app.html",
+    "default_popup": "popup.html",
     "default_title": "Export Playlists",
     "default_icon": {
       "16": "icon-16.png",
