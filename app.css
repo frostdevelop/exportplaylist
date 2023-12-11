@@ -110,14 +110,14 @@ input:active, input[type="text"]:focus {
 }
 
 h2 {
-  font-size: 25px;
+  font-size: 20px;
   font-weight: 600;
 }
 
 h3 {
   color: #bfbfbf;
   font-weight: 500;
-  font-size: 18px;
+  font-size: 15px;
   margin: 5px;
 }
 
@@ -155,6 +155,7 @@ label.iconbutton {
 
 label {
   font-weight: 600;
+  font-size: 12px;
 }
 
 .center-container-row {
@@ -170,7 +171,8 @@ label {
 }
 
 footer {
-  margin: 10px
+  margin: 10px;
+  font-size: 10px;
 }
 
 .switch {
