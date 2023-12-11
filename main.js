@@ -23,10 +23,11 @@ function ungrey(id){
     document.getElementById(id).classList.remove("disabled");
 }
 
-function sendMessageToActiveTab(message) {
-  const [tab] = await chrome.tabs.query({ active: true, lastFocusedWindow: true });
-  const response = await chrome.tabs.sendMessage(tab.id, message);
-  // TODO: Do something with the response.
+async function sendMessageToActiveTab(message) {
+  const [tab] = await chrome.tabs.query({active: true, lastFocusedWindow: true});
+  const response = await chrome.tabs.sendMessage(tab.id, {greeting: "hello"});
+  // do something with response here, not outside the function
+  console.log(response);
 }
 
 function startImport(arr){
