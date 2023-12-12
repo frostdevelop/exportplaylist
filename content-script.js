@@ -160,10 +160,8 @@ chrome.runtime.onMessage.addListener((obj, sender, res) => {
     */
     if (type === "exportplay") {
         exportPlay(data.title);
-    } else if (type === "scrolldown") {
-        scroll();
-    } else if (type === "stopscroll") {
-        clearInterval(scrolldown);
+    } else if (type === "scroll") {
+        scrollb.click();
     } else if (type === "import") {
         savePlaylist(data.name);
     } else if (type === "nav") {
