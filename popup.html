@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html>
-<head lang="en">
+<head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
   <title>ExList</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap" rel="stylesheet">
-  <link rel='stylesheet' href='popup.css' type='text/css'>
+  <link rel='stylesheet' href='test.css' type='text/css'>
 </head>
 <body>
   <div id="content">
   <div class="maincontainer">
-  <div class="section" id="mainheader">
+  <div class="section">
   <h1 id="mainheader" class="indent">ExList</h1>
   </div>
   <div class="section">
@@ -63,10 +63,8 @@
   <div class="center-container-row">
   <input type="file" id="inputfile" accept=".csv, .txt"/>
   <label for="inputfile" class="iconbutton button" title="Upload Playlist">
-    <svg class="buttonicon" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"  fill="currentcolor">
-      <g>
-      <path d="m22.0092457 0 7.9907543 10.0183757v21.9816243h-28v-32zm-.9632457 2h-17.046v28h24v-19.282zm-4.046 9v5h5v2h-5v5h-2v-5h-5v-2h5v-5z" fill-rule="nonzero"/>
-      </g>
+    <svg class="buttonicon" viewBox="2 2 21 21" xmlns="http://www.w3.org/2000/svg"  fill="none" stroke="currentcolor">
+      <path id="primary" d="M21,8V19a1,1,0,0,1-1,1H4a1,1,0,0,1-1-1V5A1,1,0,0,1,4,4H9.59a1,1,0,0,1,.7.29l2.42,2.42a1,1,0,0,0,.7.29H20A1,1,0,0,1,21,8Z" style="stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;"></path>
     </svg>
   </label>
   <input type="text" id="listname" placeholder="Playlist name">
@@ -78,6 +76,6 @@
   </div>
   </div>
   <footer>Made by Pacifiky</footer>
-  <script src="popup.js"></script>
+  <script src="main.js">
 </body>
 </html>
