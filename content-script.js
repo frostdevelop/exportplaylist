@@ -69,7 +69,7 @@ function savePlaylist(listname) {
 }
 
 function injectplaylist(title) {
-    if(typeof scrollb == 'undefined') {
+    if(typeof scrollb != 'undefined') {
         return
     }
     let classes = "yt-spec-button-shape-next yt-spec-button-shape-next--tonal yt-spec-button-shape-next--overlay yt-spec-button-shape-next--size-m yt-spec-button-shape-next--icon-button";
