@@ -1,4 +1,3 @@
-alert("Popup Activated")
 //Export
 let url = location.href.split("?")[0];
 let page;
@@ -70,14 +69,15 @@ function savePlaylist(listname) {
 }
 
 function injectplaylist(title) {
+    if(classes) {
+        return
+    }
     let classes = "yt-spec-button-shape-next yt-spec-button-shape-next--tonal yt-spec-button-shape-next--overlay yt-spec-button-shape-next--size-m yt-spec-button-shape-next--icon-button";
     waitForElm('div[class="metadata-buttons-wrapper style-scope ytd-playlist-header-renderer"]').then(() => {
         function scroll() {
-            document.querySelector('div[id="contents"][class=" style-scope ytd-playlist-video-list-renderer style-scope ytd-playlist-video-list-renderer"]').querySelector('ytd-continuation-item-renderer').scrollIntoView();
             const endobserver = new MutationObserver(mutations => {
                 if (document.querySelector('div[id="contents"][class=" style-scope ytd-playlist-video-list-renderer style-scope ytd-playlist-video-list-renderer"]').querySelector('ytd-continuation-item-renderer') === null) {
                     endobserver.disconnect();
-                    console.log("disconnect");
                     exportPlay(false);
                     scrollb.click();
                 };
@@ -88,7 +88,6 @@ function injectplaylist(title) {
                 subtree: true
             });
             scrollb.addEventListener("click", () => {
-                console.log(false);
                 clearInterval(scrolldown);
                 scrollb.addEventListener("click", scroll, {
                     once: true
@@ -126,15 +125,20 @@ function injectplaylist(title) {
     });
 }
 
-console.log(url);
-if (url === "https://www.youtube.com/playlist") {
-    page = "playlist";
-    injectplaylist(false);
-} else if (url === "https://www.youtube.com/watch") {
-    page = "video";
-} else {
-    page = null;
+function start() {
+    if (url === "https://www.youtube.com/playlist") {
+        page = "playlist";
+        injectplaylist(false);
+    } else if (url === "https://www.youtube.com/watch") {
+        page = "video";
+    } else {
+        page = null;
+    }
 }
+
+start();
+
+window.addEventListener('locationchange', start);
 
 chrome.runtime.onMessage.addListener((obj, sender, res) => {
     const {
