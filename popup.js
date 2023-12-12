@@ -1,3 +1,4 @@
+alert("Popup Activated")
 const fileInput = document.getElementById('inputfile');
 let title = false;
 let listname = "";
