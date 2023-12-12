@@ -1,3 +1,4 @@
+alert("Popup Activated")
 //Export
 let url = location.href.split("?")[0];
 let page;
