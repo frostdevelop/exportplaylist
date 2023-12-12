@@ -2,12 +2,6 @@
 let url = location.href.split("?")[0];
 let page;
 
-function scroll() {
-    var scrolldown = setInterval(() => {
-        window.scrollBy(0, 2000);
-    }, 200);
-}
-
 function exportPlay(title = false) {
     let videos = [];
     videos.push(document.querySelector('div[class="dynamic-text-container style-scope yt-dynamic-sizing-formatted-string"]').querySelector('yt-formatted-string').innerHTML);
