@@ -75,6 +75,7 @@ function injectplaylist(title) {
     let classes = "yt-spec-button-shape-next yt-spec-button-shape-next--tonal yt-spec-button-shape-next--overlay yt-spec-button-shape-next--size-m yt-spec-button-shape-next--icon-button";
     waitForElm('div[class="metadata-buttons-wrapper style-scope ytd-playlist-header-renderer"]').then(() => {
         function scroll() {
+            console.log("scrolling...");
             const scrolldown = new MutationObserver(mutations => {
                 if (document.querySelector('div[id="contents"][class=" style-scope ytd-playlist-video-list-renderer style-scope ytd-playlist-video-list-renderer"]').querySelector('ytd-continuation-item-renderer') === null) {
                     scrolldown.disconnect();
@@ -89,6 +90,7 @@ function injectplaylist(title) {
                 subtree: true
             });
             scrollb.addEventListener("click", () => {
+                console.log("Disconnecting...");
                 scrolldown.disconnect();
                 scrollb.addEventListener("click", scroll, {
                     once: true
