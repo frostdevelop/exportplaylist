@@ -125,10 +125,11 @@ function injectplaylist(title) {
     });
 }
 
-if (location.href.split("?")[0] === "https://www.youtube.com/playlist") {
+console.log(url);
+if (url === "https://www.youtube.com/playlist") {
     page = "playlist";
     injectplaylist(false);
-} else if (location.href.split("?")[0] === "https://www.youtube.com/watch") {
+} else if (url === "https://www.youtube.com/watch") {
     page = "video";
 } else {
     page = null;
