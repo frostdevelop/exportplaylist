@@ -1,6 +1,6 @@
 //Export
-let url = location.href.split("?")[0];
-let page;
+var url = location.href.split("?")[0];
+var page;
 
 function exportPlay(title = false) {
     let videos = [];
@@ -69,26 +69,27 @@ function savePlaylist(listname) {
 }
 
 function injectplaylist(title) {
-    if(typeof classes == "undefined") {
+    if(typeof scrollb == 'undefined') {
         return
     }
     let classes = "yt-spec-button-shape-next yt-spec-button-shape-next--tonal yt-spec-button-shape-next--overlay yt-spec-button-shape-next--size-m yt-spec-button-shape-next--icon-button";
     waitForElm('div[class="metadata-buttons-wrapper style-scope ytd-playlist-header-renderer"]').then(() => {
         function scroll() {
-            const endobserver = new MutationObserver(mutations => {
+            const scrolldown = new MutationObserver(mutations => {
                 if (document.querySelector('div[id="contents"][class=" style-scope ytd-playlist-video-list-renderer style-scope ytd-playlist-video-list-renderer"]').querySelector('ytd-continuation-item-renderer') === null) {
-                    endobserver.disconnect();
+                    scrolldown.disconnect();
                     exportPlay(false);
                     scrollb.click();
+                } else {
+                    document.querySelector('div[id="contents"][class=" style-scope ytd-playlist-video-list-renderer style-scope ytd-playlist-video-list-renderer"]').querySelector('ytd-continuation-item-renderer').scrollIntoView();
                 };
-                document.querySelector('div[id="contents"][class=" style-scope ytd-playlist-video-list-renderer style-scope ytd-playlist-video-list-renderer"]').querySelector('ytd-continuation-item-renderer').scrollIntoView();
             });
-            endobserver.observe(document.querySelector('div[id="contents"][class=" style-scope ytd-playlist-video-list-renderer style-scope ytd-playlist-video-list-renderer"]'), {
+            scrolldown.observe(document.querySelector('div[id="contents"][class=" style-scope ytd-playlist-video-list-renderer style-scope ytd-playlist-video-list-renderer"]'), {
                 childList: true,
                 subtree: true
             });
             scrollb.addEventListener("click", () => {
-                clearInterval(scrolldown);
+                scrolldown.disconnect();
                 scrollb.addEventListener("click", scroll, {
                     once: true
                 });
@@ -100,7 +101,7 @@ function injectplaylist(title) {
         let bar = document.querySelector('div[class="metadata-buttons-wrapper style-scope ytd-playlist-header-renderer"]');
         let menuelm = bar.querySelector('ytd-menu-renderer');
 
-        let scrollb = document.createElement('button');
+        var scrollb = document.createElement('button');
         scrollb.className = classes;
         scrollb.addEventListener("click", scroll, {
             once: true
