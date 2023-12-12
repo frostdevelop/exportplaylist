@@ -42,7 +42,7 @@ function startImport(arr){
             type: "import",
             data: {
                 name: listname,
-                arr[i+1] ? next: arr[i+1] : next: null,
+                next: arr[i+1] ? arr[i+1] : null,
             }
         });
     } 
