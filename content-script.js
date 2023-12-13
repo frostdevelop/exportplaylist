@@ -186,17 +186,6 @@ chrome.runtime.onMessage.addListener((obj, sender, res) => {
         value,
         data
     } = obj;
-    /*
-    if(type === "playlist"){
-        page = "playlist";
-        url = data.url;
-        injectplaylist(false);
-    }
-    else if(type === "video"){
-        url = data.url;
-        page = "video";
-    }
-    */
     if (type === "exportplay") {
         if (page != "playlist") {
             alert("This page is not a playlist");
