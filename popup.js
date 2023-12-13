@@ -68,7 +68,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         async function updatebadge() {
             let resp = await sendMessageToActiveTab({ type: "count", data: {} });
-            chrome.action.setBadgeText({ tabId: res.id, text: resp.response.text });
+            chrome.action.setBadgeText({ tabId: resp.id, text: resp.response.text });
             console.log(resp.response.text)
             if (resp.response.scroll == 'false') {
                 clearInterval(updater);
