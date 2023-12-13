@@ -1,5 +1,4 @@
 const fileInput = document.getElementById('inputfile');
-let title = false;
 let listname = "";
 
 fileInput.addEventListener('change', (event) => {
@@ -27,51 +26,69 @@ async function sendMessageToActiveTab(message) {
   const [tab] = await chrome.tabs.query({active: true, lastFocusedWindow: true});
   const response = await chrome.tabs.sendMessage(tab.id, message);
   // do something with response here, not outside the function
-  console.log(response);
+  return { id: tab.id, response: response };
 }
 
-function startImport(arr){
+async function startImport(arr){
     for(let i = 1;i<arr.length;i++){
-        sendMessageToActiveTab({
-            type: "nav",
-            data: {
-                url: nav[i],
-            }
-        });
-        sendMessageToActiveTab({
-            type: "import",
-            data: {
-                name: listname,
-                next: arr[i+1] ? arr[i+1] : null,
-            }
-        });
-    } 
+        const [tab] = await chrome.tabs.query({ active: true, lastFocusedWindow: true });
+        chrome.tabs.update(tab.id, { url: arr[i] }, () => {
+            chrome.tabs.onUpdated.addListener((tabid, info) => {
+                if (tabid == tab.id && info.status == "complete") {
+                    sendMessageToActiveTab({
+                        type: "import",
+                        data: {
+                            name: listname,
+                            next: arr[i + 1] ? arr[i + 1] : null,
+                        }
+                    });
+                }
+            })
+        })
+    }
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-    document.getElementById('bsdown').addEventListener("click",(e)=>{
+    function update() {
         sendMessageToActiveTab({
-            type: "scrolldown",
+            type: "update",
             data: {
-            
+                auto: document.getElementById("cauex").checked,
+                title: document.getElementById("cexti").checked
             }
         });
+    }
+
+    document.getElementById('bsdown').addEventListener("click", async (e) => {
+        let res = await sendMessageToActiveTab({
+            type: "scroll",
+            data: {}
+        });
+        chrome.action.setBadgeText({ tabId: res.id, text: "0" });
+
+        async function updatebadge() {
+            let resp = await sendMessageToActiveTab({ type: "count", data: {} });
+            chrome.action.setBadgeText({ tabId: res.id, text: resp.response.text });
+            console.log(resp.response.text)
+            if (resp.response.scroll == 'false') {
+                clearInterval(updater);
+            }
+        }
+
+        const updater = setInterval(updatebadge, 1000);
     },false)
     
     document.getElementById('beplay').addEventListener("click",(e)=>{
         sendMessageToActiveTab({
             type: "exportplay",
-            data: {
-                title: title,
-            }
+            data: {}
         });
-    },false)
-    
-    document.getElementById('cexti').addEventListener("change",(e)=>{
-        title = !title;
     },false)
     
     document.getElementById('listname').addEventListener("change",(e)=>{
         listname = document.getElementById('listname').value;
-    },false)
+    }, false)
+
+    document.getElementById('cexti').addEventListener("change", update, false);
+    document.getElementById('cauex').addEventListener("change", update, false);
 })
