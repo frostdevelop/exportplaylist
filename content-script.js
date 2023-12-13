@@ -1,18 +1,16 @@
 //Export
 var url = location.href.split("?")[0];
 var page;
+var title = false;
 
-function exportPlay(title = false) {
+function exportPlay() {
     let videos = [];
     videos.push(document.querySelector('div[class="dynamic-text-container style-scope yt-dynamic-sizing-formatted-string"]').querySelector('yt-formatted-string').innerHTML);
-    const links = document.querySelectorAll('a');
+    const links = document.querySelectorAll('a[id="video-title"]');
     for (const link of links) {
-        if (link.id === "video-title") {
-            link.href = link.href.split('&list=')[0];
-            videos.push(title ? link.title + ',' + link.href : link.href);
-        }
+        link.href = link.href.split('&list=')[0];
+        videos.push(title ? link.title + ',' + link.href : link.href);
     }
-
     let data = videos.join('\n');
     let blob = new Blob([data], {
         type: 'text/csv'
@@ -47,64 +45,83 @@ function waitForElm(selector) {
 }
 
 function savePlaylist(listname) {
-    document.querySelectorAll('[aria-label="Save to playlist"]')[0].click()
-    waitForElm('tp-yt-paper-dialog').then(() => {
-        let checks = document.querySelectorAll('tp-yt-paper-checkbox[class="style-scope ytd-playlist-add-to-option-renderer"]')
-        let found = false;
-        for (let i = 0; i < checks.length; i++) {
-            if (checks[i].childNodes[2].children[0].children[0].children[0].title == listname) {
-                checks[i].click();
-                found = true;
+    waitForElm('[aria-label="Save to playlist"]').then(() => {
+        document.querySelector('[aria-label="Save to playlist"]').click()
+        waitForElm('tp-yt-paper-dialog').then(() => {
+            let checks = document.querySelectorAll('tp-yt-paper-checkbox[class="style-scope ytd-playlist-add-to-option-renderer"]')
+            let found = false;
+            for (let i = 0; i < checks.length; i++) {
+                if (checks[i].childNodes[2].children[0].children[0].children[0].title == listname) {
+                    checks[i].click();
+                    found = true;
+                    console.log("found!")
+                }
             }
-        }
-        if (found == false) {
-            document.querySelector('tp-yt-paper-item[class="style-scope ytd-compact-link-renderer"]').click();
-            let elm = document.querySelector('input[placeholder="Enter playlist name..."]');
-            elm.value = listname;
-            let ev = new Event("input");
-            elm.parentElement.dispatchEvent(ev);
-            document.querySelectorAll('button[aria-label="Create"]')[1].click();
-        }
+            console.log("aftercheck")
+            if (found == false) {
+                console.log("notfound")
+                waitForElm('tp-yt-paper-item[class="style-scope ytd-compact-link-renderer"]').then(() => {
+                    document.querySelector('tp-yt-paper-item[class="style-scope ytd-compact-link-renderer"]').click();
+                    console.log("clicked")
+                    let elm = document.querySelector('input[placeholder="Enter playlist name..."]');
+                    elm.value = listname;
+                    let ev = new Event("input");
+                    elm.parentElement.dispatchEvent(ev);
+                    document.querySelectorAll('button[aria-label="Create"]')[1].click();
+                });
+            }
+        });
     });
 }
 
 function injectplaylist(title) {
-    if(typeof scrollb != 'undefined') {
+    if (document.getElementById('scrollb')) {
         return
     }
     let classes = "yt-spec-button-shape-next yt-spec-button-shape-next--tonal yt-spec-button-shape-next--overlay yt-spec-button-shape-next--size-m yt-spec-button-shape-next--icon-button";
     waitForElm('div[class="metadata-buttons-wrapper style-scope ytd-playlist-header-renderer"]').then(() => {
         function scroll() {
             console.log("scrolling...");
-            const scrolldown = new MutationObserver(mutations => {
-                if (document.querySelector('div[id="contents"][class=" style-scope ytd-playlist-video-list-renderer style-scope ytd-playlist-video-list-renderer"]').querySelector('ytd-continuation-item-renderer') === null) {
+            if (document.querySelector('div[id="contents"][class=" style-scope ytd-playlist-video-list-renderer style-scope ytd-playlist-video-list-renderer"]').querySelector('ytd-continuation-item-renderer') === null) {
+                exportPlay();
+                scrollb.click();
+            } else {
+            document.querySelector('div[id="contents"][class=" style-scope ytd-playlist-video-list-renderer style-scope ytd-playlist-video-list-renderer"]').querySelector('ytd-continuation-item-renderer').scrollIntoView();
+                let scrolldown = new MutationObserver(mutations => {
+                    if (document.querySelector('div[id="contents"][class=" style-scope ytd-playlist-video-list-renderer style-scope ytd-playlist-video-list-renderer"]').querySelector('ytd-continuation-item-renderer') === null) {
+                        scrolldown.disconnect();
+                        if (scrollb.getAttribute("auto") == 'true') {
+                            exportPlay();
+                        }
+                        scrollb.click();
+                    } else {
+                        document.querySelector('div[id="contents"][class=" style-scope ytd-playlist-video-list-renderer style-scope ytd-playlist-video-list-renderer"]').querySelector('ytd-continuation-item-renderer').scrollIntoView();
+                    }
+                });
+                scrolldown.observe(document.querySelector('div[id="contents"][class=" style-scope ytd-playlist-video-list-renderer style-scope ytd-playlist-video-list-renderer"]'), {
+                    childList: true,
+                    subtree: true
+                });
+                scrollb.addEventListener("click", () => {
                     scrolldown.disconnect();
-                    exportPlay(false);
-                    scrollb.click();
-                } else {
-                    document.querySelector('div[id="contents"][class=" style-scope ytd-playlist-video-list-renderer style-scope ytd-playlist-video-list-renderer"]').querySelector('ytd-continuation-item-renderer').scrollIntoView();
-                };
-            });
-            scrolldown.observe(document.querySelector('div[id="contents"][class=" style-scope ytd-playlist-video-list-renderer style-scope ytd-playlist-video-list-renderer"]'), {
-                childList: true,
-                subtree: true
-            });
-            scrollb.addEventListener("click", () => {
-                console.log("Disconnecting...");
-                scrolldown.disconnect();
-                scrollb.addEventListener("click", scroll, {
+                    scrollb.addEventListener("click", scroll, {
+                        once: true
+                    });
+                    scrollb.setAttribute("scroll", false);
+                }, {
                     once: true
                 });
-            }, {
-                once: true
-            });
+                scrollb.setAttribute("scroll", true);
+            }
         };
 
         let bar = document.querySelector('div[class="metadata-buttons-wrapper style-scope ytd-playlist-header-renderer"]');
         let menuelm = bar.querySelector('ytd-menu-renderer');
 
-        var scrollb = document.createElement('button');
+        let scrollb = document.createElement('button');
         scrollb.className = classes;
+        scrollb.id = "scrollb";
+        scrollb.setAttribute("auto", true);
         scrollb.addEventListener("click", scroll, {
             once: true
         });
@@ -124,7 +141,29 @@ function injectplaylist(title) {
         scrollb.appendChild(icondiv);
         icondiv.appendChild(yticon);
         yticon.appendChild(yticonshape);
-        yticonshape.innerHTML = '<icon-shape class="yt-spec-icon-shape"><div style="width: 100%; height: 100%; fill: currentcolor;"><svg width="24" height="24" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" focusable="false" style="pointer-events: none; display: block; width: 100%; height: 100%;"><path d="M8,12 C9.10457,12 10,12.8954 10,14 C10,15.1046 9.10457,16 8,16 C6.89543,16 6,15.1046 6,14 C6,12.8954 6.89543,12 8,12 Z M8,-3.10862447e-14 C8.55229,-3.10862447e-14 9,0.447715 9,1 L9,6.58579 L10.2929,5.2929 C10.6834,4.90237 11.3166,4.90237 11.7071,5.2929 C12.0976,5.68342 12.0976,6.31658 11.7071,6.70711 L8,10.4142 L4.29289,6.70711 C3.90237,6.31658 3.90237,5.68342 4.29289,5.2929 C4.68342,4.90237 5.31658,4.90237 5.70711,5.2929 L7,6.58579 L7,1 C7,0.447715 7.44772,-3.10862447e-14 8,-3.10862447e-14 Z"/></svg></div></icon-shape>';
+        yticonshape.innerHTML = '<icon-shape class="yt-spec-icon-shape"><div style="width: 100%; height: 100%; fill: currentcolor;"><svg width="24" height="24" viewBox="0 0 30 30" xmlns="http://www.w3.org/2000/svg" focusable="false" style="pointer-events: none; display: block; width: 100%; height: 100%;"><path d="M16,1A15,15,0,1,0,31,16,15.007,15.007,0,0,0,16,1Zm0,2A13,13,0,1,1,3,16,13.006,13.006,0,0,1,16,3Z" transform="translate(-1 -1)" fill-rule="evenodd"/><path d="M21.293,12.293,16,17.586l-5.293-5.293a1,1,0,0,0-1.414,1.414l6,6a1,1,0,0,0,1.414,0l6-6a1,1,0,1,0-1.414-1.414Z" transform="translate(-1 -1)" fill - rule="evenodd"/></svg></div></icon-shape>';
+
+        delete bar
+        delete menuelm
+        delete buttonrenderer
+        delete shape
+        delete tooltop
+        delete icondiv
+        delete yticon
+        delete yticonshape
+        delete classes
+
+        const titlechange = new MutationObserver(mutations => {
+            console.log("locationchange");
+            if (scrollb.getAttribute('scroll') == 'true') {
+                scrollb.click();
+            }
+            start();
+        })
+        titlechange.observe(document.querySelector('div[class="dynamic-text-container style-scope yt-dynamic-sizing-formatted-string"]').querySelector('yt-formatted-string'), {
+            childList: true,
+            subtree: true
+        });
     });
 }
 
@@ -140,8 +179,6 @@ function start() {
 }
 
 start();
-
-window.addEventListener('locationchange', start);
 
 chrome.runtime.onMessage.addListener((obj, sender, res) => {
     const {
@@ -161,12 +198,28 @@ chrome.runtime.onMessage.addListener((obj, sender, res) => {
     }
     */
     if (type === "exportplay") {
-        exportPlay(data.title);
+        if (page != "playlist") {
+            alert("This page is not a playlist");
+        } else {
+            exportPlay();
+        }
     } else if (type === "scroll") {
-        scrollb.click();
+        if (page != "playlist") {
+            alert("This page is not a playlist");
+        } else {
+            document.getElementById("scrollb").click();
+        }
     } else if (type === "import") {
-        savePlaylist(data.name);
-    } else if (type === "nav") {
-        window.href.location = data.url;
+        if (page != "video") {
+            alert("This page is not a video");
+        } else {
+            savePlaylist(data.name);
+        }
+    } else if (type === "update") {
+        console.log("updated")
+        document.getElementById("scrollb").setAttribute("auto", data.auto);
+        title = data.title;
+    } else if (type === "count") {
+        res({ text: document.querySelectorAll('a[id="video-title"]').length.toString(), scroll: document.getElementById('scrollb').getAttribute('scroll') })
     }
 })
