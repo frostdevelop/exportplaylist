@@ -183,7 +183,6 @@ start();
 chrome.runtime.onMessage.addListener((obj, sender, res) => {
     const {
         type,
-        value,
         data
     } = obj;
     if (type === "exportplay") {
