@@ -2,7 +2,7 @@ async function sendMessageToActiveTab(message) {
   const [tab] = await chrome.tabs.query({active: true, lastFocusedWindow: true});
   const response = await chrome.tabs.sendMessage(tab.id, message);
   // do something with response here, not outside the function
-    return response;
+  return response;
 }
 
 async function startimport(arr, listname) {
@@ -12,7 +12,7 @@ async function startimport(arr, listname) {
 	  	const waitupdate = new Promise((res)=>{
 			chrome.tabs.onUpdated.addListener((tabid, info)=>{
 				if (tabid == tab.id && info.status == "complete") {
-                	sendMessageToActiveTab({
+                	await sendMessageToActiveTab({
                     	type: "import",
                 		data: {
                         	name: listname
