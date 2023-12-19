@@ -6,3 +6,12 @@ async function sendMessageToActiveTab(message) {
 }
 
 chrome.tabs.onUpdated.addListener((tabId, tab) => {})
+chrome.runtime.onMessage.addListener(obj, sender, res) {
+  const {
+      type,
+      data
+  } = obj;
+  if(type === "startimport"){
+    console.log("Starting import");
+  }
+}
