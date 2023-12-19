@@ -68,6 +68,9 @@ function savePlaylist(listname) {
                     let ev = new Event("input");
                     elm.parentElement.dispatchEvent(ev);
                     document.querySelectorAll('button[aria-label="Create"]')[1].click();
+                    chrome.runtime.sendMessage({
+                        type: ""
+                    })
                 });
             }
         });
