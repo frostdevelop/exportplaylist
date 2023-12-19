@@ -54,7 +54,10 @@ function savePlaylist(listname) {
                 if (checks[i].childNodes[2].children[0].children[0].children[0].title == listname) {
                     checks[i].click();
                     found = true;
-                    console.log("found!")
+                    chrome.runtime.sendMessage({
+                        type: "finishimport"
+                    });
+                    console.log("found");
                 }
             }
             console.log("aftercheck")
@@ -69,8 +72,8 @@ function savePlaylist(listname) {
                     elm.parentElement.dispatchEvent(ev);
                     document.querySelectorAll('button[aria-label="Create"]')[1].click();
                     chrome.runtime.sendMessage({
-                        type: ""
-                    })
+                        type: "finishimport"
+                    });
                 });
             }
         });
