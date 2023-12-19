@@ -6,8 +6,9 @@ async function sendMessageToActiveTab(message) {
 }
 
 async function startimport(arr, listname) {
-  const tab = chrome.tabs.create({url: arr[1]});
+  const tab = chrome.tabs.create({url: "about:blank"});
   for(let i = 1;i<arr.length;i++){
+        console.log(i);
 	    const [tab] = await chrome.tabs.query({active: true, lastFocusedWindow: true});
         await chrome.tabs.update(tab.id, { url: arr[i] })
 	  	const waitupdate = new Promise((res)=>{
