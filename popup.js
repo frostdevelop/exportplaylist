@@ -9,7 +9,15 @@ fileInput.addEventListener('change', (event) => {
       let arr = data.split('\n');
       listname = arr[0];
       document.getElementById('listname').value = listname;
-      document.getElementById('bstarti').addEventListener("click",()=>startImport(arr),false)
+      document.getElementById('bstarti').addEventListener("click",()=>{
+          chrome.runtime.sendMessage({
+              type: "startimport",
+              data: {
+                  arr: arr,
+                  name: listname
+              };
+          });
+      },false)
     }
     fr.readAsText(files[0]);
 });
