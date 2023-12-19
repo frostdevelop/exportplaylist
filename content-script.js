@@ -66,7 +66,7 @@ function savePlaylist(listname) {
                 waitForElm('tp-yt-paper-item[class="style-scope ytd-compact-link-renderer"]').then(() => {
                     document.querySelector('tp-yt-paper-item[class="style-scope ytd-compact-link-renderer"]').click();
                     console.log("clicked")
-                    let elm = document.querySelector('input[placeholder="Enter playlist name..."]');
+                    let elm = document.querySelector('input[placeholder="Enter playlist title..."]');
                     elm.value = listname;
                     let ev = new Event("input");
                     elm.parentElement.dispatchEvent(ev);
