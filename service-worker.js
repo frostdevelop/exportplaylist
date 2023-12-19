@@ -14,14 +14,14 @@ async function startimport(arr, listname) {
 				if (tabid == tab.id && info.status == "complete") {
                 	sendMessageToActiveTab({
                     	type: "import",
-                    	data: {
+                		data: {
                         	name: listname
                     	}
                 	});
 					const waitfinish = new Promise((resolve)=>{
 						chrome.runtime.onMessage.addListener((obj,sender,res)=>{
 							if(obj.type === "finishimport"){
-									resolve();
+								resolve();
 							};
 						});
 					});
