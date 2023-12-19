@@ -5,6 +5,33 @@ async function sendMessageToActiveTab(message) {
     return response;
 }
 
+async function startimport(arr, listname) {
+  for(let i = 1;i<arr.length;i++){
+        const [tab] = await chrome.tabs.query({ active: true, lastFocusedWindow: true });
+        chrome.tabs.update(tab.id, { url: arr[i] }, () => {
+            chrome.tabs.onUpdated.addListener((tabid, info) => {
+                if (tabid == tab.id && info.status == "complete") {
+                    sendMessageToActiveTab({
+                        type: "import",
+                        data: {
+                            name: listname
+                        }
+                    });
+					const waitfinish = new Promise((resolve)=>{
+						chrome.runtime.onMessage.addListener((obj,sender,res)=>{
+							if(obj.type === "finishimport"){
+								resolve();
+							};
+						});
+					});
+					await waitfinish;
+                }
+            })
+        })
+    }
+}
+
+
 chrome.tabs.onUpdated.addListener((tabId, tab) => {})
 chrome.runtime.onMessage.addListener((obj, sender, res)=>{
   const {
@@ -12,6 +39,7 @@ chrome.runtime.onMessage.addListener((obj, sender, res)=>{
       data
   } = obj;
   if(type === "startimport"){
+    startimport(data.arr, data.name);
     console.log("Starting import");
   }
 });
