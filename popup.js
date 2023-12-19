@@ -15,7 +15,7 @@ fileInput.addEventListener('change', (event) => {
               data: {
                   arr: arr,
                   name: listname
-              };
+              }
           });
       },false)
     }
@@ -35,25 +35,6 @@ async function sendMessageToActiveTab(message) {
   const response = await chrome.tabs.sendMessage(tab.id, message);
   // do something with response here, not outside the function
   return { id: tab.id, response: response };
-}
-
-async function startImport(arr){
-    for(let i = 1;i<arr.length;i++){
-        const [tab] = await chrome.tabs.query({ active: true, lastFocusedWindow: true });
-        chrome.tabs.update(tab.id, { url: arr[i] }, () => {
-            chrome.tabs.onUpdated.addListener((tabid, info) => {
-                if (tabid == tab.id && info.status == "complete") {
-                    sendMessageToActiveTab({
-                        type: "import",
-                        data: {
-                            name: listname,
-                            next: arr[i + 1] ? arr[i + 1] : null,
-                        }
-                    });
-                }
-            })
-        })
-    }
 }
 
 document.addEventListener("DOMContentLoaded", () => {
