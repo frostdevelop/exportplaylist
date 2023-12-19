@@ -12,7 +12,7 @@ async function startimport(arr, listname) {
 	  	const waitupdate = new Promise((res)=>{
 			chrome.tabs.onUpdated.addListener((tabid, info)=>{
 				if (tabid == tab.id && info.status == "complete") {
-                	await sendMessageToActiveTab({
+                	sendMessageToActiveTab({
                     	type: "import",
                 		data: {
                         	name: listname
