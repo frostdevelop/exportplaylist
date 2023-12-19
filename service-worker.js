@@ -25,7 +25,7 @@ async function startimport(arr, listname) {
 							};
 						});
 					});
-				    await waitfinish;
+					await waitfinish;
 					res();
             	};
 			});
