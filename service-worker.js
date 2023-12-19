@@ -16,7 +16,7 @@ async function startimport(arr, listname) {
                     	type: "import",
                 		data: {
                         	name: listname
-										}
+						}
                 	});
 					const waitfinish = new Promise((resolve)=>{
 						chrome.runtime.onMessage.addListener((obj,sender,res)=>{
