@@ -18,13 +18,13 @@ function waitForElm(selector) {
     });
 }
 
-waitForElm('[aria-label="Save to playlist"]').then(() => {
-    document.querySelector('[aria-label="Save to playlist"]').click()
+waitForElm('[aria-label="Save to playlist"]').then((e) => {
+    e.click()
     waitForElm('tp-yt-paper-dialog').then(() => {
-        let checks = document.querySelectorAll('tp-yt-paper-checkbox[class="style-scope ytd-playlist-add-to-option-renderer"]')
+        let checks = document.querySelectorAll('tp-yt-paper-checkbox');
         let found = false;
         for (let i = 0; i < checks.length; i++) {
-            if (checks[i].childNodes[2].children[0].children[0].children[0].title == listname) {
+            if (checks[i].children[1].children[0].children[0].children[0].title == listname) {
                 checks[i].click();
                 found = true;
                 console.log("found");

@@ -13,9 +13,9 @@ async function startimport(arr, listname) {
 		run = false;
 	};
   });
+  
   for(let i = 1;i<arr.length, run === true;i++){
         console.log(i);
-		
 	    const [tab] = await chrome.tabs.query({active: true, lastFocusedWindow: true});
         await chrome.tabs.update(tab.id, { url: arr[i] })
 	  	const waitupdate = new Promise((res)=>{
