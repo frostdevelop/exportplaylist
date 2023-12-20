@@ -54,6 +54,10 @@ function savePlaylist(listname) {
                 if (checks[i].children[1].children[0].children[0].children[0].title == listname) {
                     if(checks[i].checked === false){
                         checks[i].click();
+                    } else {
+                        chrome.runtime.sendMessage({
+                            type: "finishimport"
+                        });
                     };
                     found = true;
                     console.log("found");
