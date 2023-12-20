@@ -45,14 +45,16 @@ function waitForElm(selector) {
 }
 
 function savePlaylist(listname) {
-    waitForElm('[aria-label="Save to playlist"]').then(() => {
-        document.querySelector('[aria-label="Save to playlist"]').click()
+    waitForElm('[aria-label="Save to playlist"]').then((e) => {
+        e.click()
         waitForElm('tp-yt-paper-dialog').then(() => {
-            let checks = document.querySelectorAll('tp-yt-paper-checkbox[class="style-scope ytd-playlist-add-to-option-renderer"]')
+            let checks = document.querySelectorAll('tp-yt-paper-checkbox');
             let found = false;
             for (let i = 0; i < checks.length; i++) {
-                if (checks[i].childNodes[2].children[0].children[0].children[0].title == listname) {
-                    checks[i].click();
+                if (checks[i].children[1].children[0].children[0].children[0].title == listname) {
+                    if(checks[i].checked === false){
+                        checks[i].click();
+                    };
                     found = true;
                     chrome.runtime.sendMessage({
                         type: "finishimport"
@@ -63,21 +65,20 @@ function savePlaylist(listname) {
             console.log("aftercheck")
             if (found == false) {
                 console.log("notfound")
-                waitForElm('tp-yt-paper-item[class="style-scope ytd-compact-link-renderer"]').then(() => {
-                    document.querySelector('tp-yt-paper-item[class="style-scope ytd-compact-link-renderer"]').click();
+                waitForElm('.ytd-add-to-playlist-create-renderer').then(() => {
+                    document.getElementsByClassName("ytd-add-to-playlist-create-renderer")[0].click();
                     console.log("clicked")
-                    let elm = document.querySelector('input[placeholder="Enter playlist title..."]');
+                    let elm = document.getElementsByClassName("tp-yt-paper-input")[3];
                     elm.value = listname;
-                    let ev = new Event("input");
-                    elm.parentElement.dispatchEvent(ev);
-                    document.querySelectorAll('button[aria-label="Create"]')[1].click();
+                    elm.parentElement.dispatchEvent(new Event("input"));
+                    document.getElementsByClassName("yt-spec-button-shape-next--text yt-spec-button-shape-next--call-to-action")[0].click();
                     chrome.runtime.sendMessage({
                         type: "finishimport"
                     });
                 });
             }
         });
-    });
+    });    
 }
 
 function injectplaylist(title) {
