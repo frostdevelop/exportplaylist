@@ -77,6 +77,13 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById('listname').addEventListener("change",(e)=>{
         listname = document.getElementById('listname').value;
     }, false)
+    
+    document.getElementById('bstopi').addEventListener("click", ()=>{
+        chrome.runtime.sendMessage({
+            type: "stopimport",
+            data: {}
+        });
+    }, false)
 
     document.getElementById('cexti').addEventListener("change", update, false);
     document.getElementById('cauex').addEventListener("change", update, false);
