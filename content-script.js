@@ -1,4 +1,5 @@
 //Export
+console.log("Tab Initializing")
 var url = location.href.split("?")[0];
 var page;
 var title = false;
@@ -52,9 +53,12 @@ function savePlaylist(listname) {
             let found = false;
             for (let i = 0; i < checks.length; i++) {
                 if (checks[i].children[1].children[0].children[0].children[0].title == listname) {
-                    if(checks[i].checked === false){
+                    console.log(checks[i].checked);
+                    if (checks[i].checked === false) {
                         checks[i].click();
-                    } else {
+                    };
+                    if (checks[i].checked === true) {
+                        console.log("checked")
                         chrome.runtime.sendMessage({
                             type: "finishimport"
                         });
@@ -68,7 +72,7 @@ function savePlaylist(listname) {
                 console.log("notfound")
                 waitForElm('ytd-add-to-playlist-create-renderer').then(() => {
                     document.getElementsByClassName("ytd-add-to-playlist-create-renderer")[0].click();
-                    console.log("clicked")
+                    console.log("clicked");
                     let elm = document.getElementsByClassName("tp-yt-paper-input")[3];
                     elm.value = listname;
                     elm.parentElement.dispatchEvent(new Event("input"));
@@ -77,15 +81,16 @@ function savePlaylist(listname) {
             }
             const waitNotif = new MutationObserver(mutations => {
                 let notifs = document.querySelectorAll("tp-yt-paper-toast");
-                for(let i = 0; i < notifs.length; i++){
-                    if(notifs[i].children[1].firstElementChild.firstElementChild && notifs[i].children[1].firstElementChild.firstElementChild.innerHTML === "Saved to "){
+                for (let i = 0; i < notifs.length; i++) {
+                    if (notifs[i].children[1].firstElementChild.firstElementChild && notifs[i].children[1].firstElementChild.firstElementChild.innerHTML === "Saved to ") {
                         chrome.runtime.sendMessage({
                             type: "finishimport"
                         });
+                        waitNotif.disconnect();
                     }
                 }
             });
-            
+
             waitNotif.observe(document.querySelector("ytd-popup-container"), {
                 childList: true,
                 subtree: true
@@ -106,7 +111,7 @@ function injectplaylist(title) {
                 exportPlay();
                 scrollb.click();
             } else {
-            document.querySelector('div[id="contents"][class=" style-scope ytd-playlist-video-list-renderer style-scope ytd-playlist-video-list-renderer"]').querySelector('ytd-continuation-item-renderer').scrollIntoView();
+                document.querySelector('div[id="contents"][class=" style-scope ytd-playlist-video-list-renderer style-scope ytd-playlist-video-list-renderer"]').querySelector('ytd-continuation-item-renderer').scrollIntoView();
                 let scrolldown = new MutationObserver(mutations => {
                     if (document.querySelector('div[id="contents"][class=" style-scope ytd-playlist-video-list-renderer style-scope ytd-playlist-video-list-renderer"]').querySelector('ytd-continuation-item-renderer') === null) {
                         scrolldown.disconnect();
