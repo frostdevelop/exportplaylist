@@ -56,13 +56,11 @@ function savePlaylist(listname) {
                         checks[i].click();
                     };
                     found = true;
-                    chrome.runtime.sendMessage({
-                        type: "finishimport"
-                    });
                     console.log("found");
                 }
             }
             console.log("aftercheck")
+
             if (found == false) {
                 console.log("notfound")
                 waitForElm('.ytd-add-to-playlist-create-renderer').then(() => {
@@ -72,11 +70,24 @@ function savePlaylist(listname) {
                     elm.value = listname;
                     elm.parentElement.dispatchEvent(new Event("input"));
                     document.getElementsByClassName("yt-spec-button-shape-next--text yt-spec-button-shape-next--call-to-action")[0].click();
-                    chrome.runtime.sendMessage({
-                        type: "finishimport"
-                    });
                 });
             }
+
+            const waitNotif = new MutationObserver(mutations => {
+                let notifs = document.querySelectorAll("tp-yt-paper-toast");
+                for(let i = 0; i < notifs.length; i++){
+                    if(notifs[i].children[1].firstElementChild.firstElementChild.innerHTML === "Added to "){
+                        chrome.runtime.sendMessage({
+                            type: "finishimport"
+                        });
+                    }
+                }
+            });
+            
+            waitNotif.observe(document.querySelectorAll("tp-yt-paper-toast"), {
+                childList: true,
+                subtree: true
+            });
         });
     });    
 }
