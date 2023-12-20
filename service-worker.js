@@ -7,8 +7,15 @@ async function sendMessageToActiveTab(message) {
 
 async function startimport(arr, listname) {
   const tab = chrome.tabs.create({url: "about:blank"});
-  for(let i = 1;i<arr.length;i++){
+  let run = true;
+  chrome.runtime.onMessage.addListener((obj, sender, res)=>{
+	if(obj.type === "stopimport"){
+		run = false;
+	};
+  });
+  for(let i = 1;i<arr.length, run === true;i++){
         console.log(i);
+		
 	    const [tab] = await chrome.tabs.query({active: true, lastFocusedWindow: true});
         await chrome.tabs.update(tab.id, { url: arr[i] })
 	  	const waitupdate = new Promise((res)=>{
@@ -37,7 +44,6 @@ async function startimport(arr, listname) {
     }
 	chrome.tabs.remove(tab.id);
 }
-
 
 chrome.tabs.onUpdated.addListener((tabId, tab) => {})
 chrome.runtime.onMessage.addListener((obj, sender, res)=>{
