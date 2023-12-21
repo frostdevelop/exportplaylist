@@ -1,58 +1,66 @@
-async function sendMessageToActiveTab(message) {
-    const [tab] = await chrome.tabs.query({active: true, lastFocusedWindow: true});
-    const response = await chrome.tabs.sendMessage(tab.id, message);
-    // do something with response here, not outside the function
-    return response;
-  }
-  
-  async function startimport(arr, listname) {
-    const tab = chrome.tabs.create({url: "about:blank"});
-    let run = true;
-    chrome.runtime.onMessage.addListener((obj, sender, res)=>{
-      if(obj.type === "stopimport"){
-          run = false;
-      };
+function waitForElm(selector) {
+    return new Promise(resolve => {
+        if (document.querySelector(selector)) {
+            return resolve(document.querySelector(selector));
+        }
+
+        const observer = new MutationObserver(mutations => {
+            if (document.querySelector(selector)) {
+                observer.disconnect();
+                resolve(document.querySelector(selector));
+            }
+        });
+
+        observer.observe(document.body, {
+            childList: true,
+            subtree: true
+        });
     });
-    
-    for(let i = 1;i<arr.length, run === true;i++){
-          console.log(i);
-          const [tab] = await chrome.tabs.query({active: true, lastFocusedWindow: true});
-          await chrome.tabs.update(tab.id, { url: arr[i] })
-            let waitupdate = new Promise((res)=>{
-              chrome.tabs.onUpdated.addListener(async (tabid, info)=>{
-                  if (tabid == tab.id && tab.url == arr[i] && info.status == "complete") {
-                      chrome.tabs.sendMessage(tab.id,{
-                          type: "import",
-                          data: {
-                              name: listname
-                          }
-                      }
-                      );
-                      const waitfinish = new Promise((resolve)=>{
-                          chrome.runtime.onMessage.addListener((obj,sender,res)=>{
-                              if(obj.type === "finishimport"){
-                                  resolve();
-                              };
-                          });
-                      });
-                      await waitfinish;
-                      res();
-                  };
-              });
-          });
-            await waitupdate;
-      }
-      chrome.tabs.remove(tab.id);
-  }
-  
-  chrome.tabs.onUpdated.addListener((tabId, tab) => {})
-  chrome.runtime.onMessage.addListener((obj, sender, res)=>{
-    const {
-        type,
-        data
-    } = obj;
-    if(type === "startimport"){
-      startimport(data.arr, data.name);
-      console.log("Starting import");
+}
+
+function timeout(time) {
+    return new Promise(resolve => {
+        setTimeout(resolve, time)
+    })
+};
+
+let name = "Watch Later";
+
+async function savePlaylist(listname) {
+    let save = await waitForElm("[aria-label='Save to playlist']");
+    save.click();
+    await waitForElm('button[aria-label="Create"][class="yt-spec-button-shape-next yt-spec-button-shape-next--text yt-spec-button-shape-next--call-to-action yt-spec-button-shape-next--size-m"]');
+    await timeout(10000);
+    let checkboxelm = document.querySelector(`yt-formatted-string[title='${listname}']`);
+    if (checkboxelm != null) {
+        let checked = document.querySelector(`yt-formatted-string[title='${listname}']`).parentElement.parentElement.parentElement.parentElement.checked;
+        console.log(checked);
+        if (checked === false) {
+            checkboxelm.click()
+        }
+        if (checked === true) {
+            console.log("added");
+        }
+    } else {
+        console.log(listname)
+        let elm = document.querySelector("tp-yt-paper-input");
+        elm.value = listname;
+        elm.dispatchEvent(new Event("input"));
+        document.querySelectorAll('button[aria-label="Create"]')[1].click();
     }
-  });  
+    const waitNotif = new MutationObserver(mutations => {
+        let notifs = document.querySelectorAll("tp-yt-paper-toast");
+        for (let i = 0; i < notifs.length; i++) {
+            if (notifs[i].children[1].firstElementChild.firstElementChild && notifs[i].children[1].firstElementChild.firstElementChild.innerHTML === "Saved to ") {
+                console.log("added");
+                waitNotif.disconnect();
+            }
+        }
+    });
+    waitNotif.observe(document.querySelector("ytd-popup-container"), {
+        childList: true,
+        subtree: true
+    });
+}
+
+savePlaylist(name)
