@@ -3,6 +3,7 @@ console.log("Tab Initializing")
 var url = location.href.split("?")[0];
 var page;
 var title = false;
+var importing = false;
 
 function exportPlay() {
     let videos = [];
@@ -45,57 +46,52 @@ function waitForElm(selector) {
     });
 }
 
-function savePlaylist(listname) {
-    waitForElm('[aria-label="Save to playlist"]').then((e) => {
-        e.click()
-        waitForElm('tp-yt-paper-dialog').then(() => {
-            let checks = document.querySelectorAll('tp-yt-paper-checkbox');
-            let found = false;
-            for (let i = 0; i < checks.length; i++) {
-                if (checks[i].children[1].children[0].children[0].children[0].title == listname) {
-                    console.log(checks[i].checked);
-                    if (checks[i].checked === false) {
-                        checks[i].click();
-                    };
-                    if (checks[i].checked === true) {
-                        console.log("checked")
-                        chrome.runtime.sendMessage({
-                            type: "finishimport"
-                        });
-                    };
-                    found = true;
-                    console.log("found");
-                }
-            }
-            console.log("aftercheck")
-            if (found == false) {
-                console.log("notfound")
-                waitForElm('ytd-add-to-playlist-create-renderer').then(() => {
-                    document.getElementsByClassName("ytd-add-to-playlist-create-renderer")[0].click();
-                    console.log("clicked");
-                    let elm = document.getElementsByClassName("tp-yt-paper-input")[3];
-                    elm.value = listname;
-                    elm.parentElement.dispatchEvent(new Event("input"));
-                    document.querySelectorAll('button[aria-label="Create"]')[1].click();
-                });
-            }
-            const waitNotif = new MutationObserver(mutations => {
-                let notifs = document.querySelectorAll("tp-yt-paper-toast");
-                for (let i = 0; i < notifs.length; i++) {
-                    if (notifs[i].children[1].firstElementChild.firstElementChild && notifs[i].children[1].firstElementChild.firstElementChild.innerHTML === "Saved to ") {
-                        chrome.runtime.sendMessage({
-                            type: "finishimport"
-                        });
-                        waitNotif.disconnect();
-                    }
-                }
-            });
+function timeout(time) {
+    return new Promise(resolve => {
+        setTimeout(resolve, time)
+    })
+};
 
-            waitNotif.observe(document.querySelector("ytd-popup-container"), {
-                childList: true,
-                subtree: true
+async function savePlaylist(listname) {
+    let save = await waitForElm("[aria-label='Save to playlist']");
+    save.click();
+    await waitForElm('button[aria-label="Create"][class="yt-spec-button-shape-next yt-spec-button-shape-next--text yt-spec-button-shape-next--call-to-action yt-spec-button-shape-next--size-m"]');
+    await timeout(10000);
+    let checkboxelm = document.querySelector(`yt-formatted-string[title='${listname}']`);
+    if (checkboxelm != null) {
+        let checked = checkboxelm.parentElement.parentElement.parentElement.parentElement.checked;
+        console.log(checked);
+        if (checked === false) {
+            checkboxelm.click()
+        }
+        if (checked === true) {
+            console.log("added");
+            chrome.runtime.sendMessage({
+                type: "finishimport"
             });
-        });
+        }
+    } else {
+        console.log(listname)
+        let elm = document.getElementById("name-input");
+        elm.value = listname;
+        elm.dispatchEvent(new Event("input"));
+        document.querySelectorAll('button[aria-label="Create"]')[1].click();
+    }
+    const waitNotif = new MutationObserver(mutations => {
+        let notifs = document.querySelectorAll("tp-yt-paper-toast");
+        for (let i = 0; i < notifs.length; i++) {
+            if (notifs[i].children[1].firstElementChild.firstElementChild && notifs[i].children[1].firstElementChild.firstElementChild.innerHTML === "Saved to ") {
+                console.log("added");
+                chrome.runtime.sendMessage({
+                    type: "finishimport"
+                });
+                waitNotif.disconnect();
+            }
+        }
+    });
+    waitNotif.observe(document.querySelector("ytd-popup-container"), {
+        childList: true,
+        subtree: true
     });
 }
 
@@ -168,16 +164,6 @@ function injectplaylist(title) {
         yticon.appendChild(yticonshape);
         yticonshape.innerHTML = '<icon-shape class="yt-spec-icon-shape"><div style="width: 100%; height: 100%; fill: currentcolor;"><svg width="24" height="24" viewBox="0 0 30 30" xmlns="http://www.w3.org/2000/svg" focusable="false" style="pointer-events: none; display: block; width: 100%; height: 100%;"><path d="M16,1A15,15,0,1,0,31,16,15.007,15.007,0,0,0,16,1Zm0,2A13,13,0,1,1,3,16,13.006,13.006,0,0,1,16,3Z" transform="translate(-1 -1)" fill-rule="evenodd"/><path d="M21.293,12.293,16,17.586l-5.293-5.293a1,1,0,0,0-1.414,1.414l6,6a1,1,0,0,0,1.414,0l6-6a1,1,0,1,0-1.414-1.414Z" transform="translate(-1 -1)" fill - rule="evenodd"/></svg></div></icon-shape>';
 
-        delete bar
-        delete menuelm
-        delete buttonrenderer
-        delete shape
-        delete tooltop
-        delete icondiv
-        delete yticon
-        delete yticonshape
-        delete classes
-
         const titlechange = new MutationObserver(mutations => {
             console.log("locationchange");
             if (scrollb.getAttribute('scroll') == 'true') {
@@ -210,6 +196,7 @@ chrome.runtime.onMessage.addListener((obj, sender, res) => {
         type,
         data
     } = obj;
+    console.log(type);
     if (type === "exportplay") {
         if (page != "playlist") {
             alert("This page is not a playlist");
@@ -226,7 +213,11 @@ chrome.runtime.onMessage.addListener((obj, sender, res) => {
         if (page != "video") {
             alert("This page is not a video");
         } else {
-            savePlaylist(data.name);
+            if (importing != true) {
+                console.log("importing");
+                savePlaylist(data.name);
+            }
+            importing = true;
         }
     } else if (type === "update") {
         console.log("updated")
