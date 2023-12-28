@@ -33,7 +33,7 @@ async function savePlaylist(listname) {
     await timeout(10000);
     let checkboxelm = document.querySelector(`yt-formatted-string[title='${listname}']`);
     if (checkboxelm != null) {
-        let checked = document.querySelector(`yt-formatted-string[title='${listname}']`).parentElement.parentElement.parentElement.parentElement.checked;
+        let checked = checkboxelm.parentElement.parentElement.parentElement.parentElement.checked;
         console.log(checked);
         if (checked === false) {
             checkboxelm.click()
@@ -43,7 +43,7 @@ async function savePlaylist(listname) {
         }
     } else {
         console.log(listname)
-        let elm = document.querySelector("tp-yt-paper-input");
+        let elm = document.getElementById("name-input");
         elm.value = listname;
         elm.dispatchEvent(new Event("input"));
         document.querySelectorAll('button[aria-label="Create"]')[1].click();
