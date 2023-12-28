@@ -16,9 +16,9 @@ async function startimport(arr, listname) {
   
   for(let i = 1;i<arr.length, run === true;i++){
         console.log(i);
-	    const [tab] = await chrome.tabs.query({active: true, lastFocusedWindow: true});
+	    let [tab] = await chrome.tabs.query({active: true, lastFocusedWindow: true});
         await chrome.tabs.update(tab.id, { url: arr[i] })
-	  	const waitupdate = new Promise((res)=>{
+	  	let waitupdate = new Promise((res)=>{
 			chrome.tabs.onUpdated.addListener(async (tabid, info)=>{
 				if (tabid == tab.id && info.status == "complete") {
                 	chrome.tabs.sendMessage(tab.id,{
