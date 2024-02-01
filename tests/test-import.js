@@ -24,7 +24,8 @@ function timeout(time) {
     })
 };
 
-let name = "Watch Later";
+//let name = "Watch Later";
+let name = "Playlist" + parseInt(math.random()*100);
 
 async function savePlaylist(listname) {
     let save = await waitForElm("[aria-label='Save to playlist']");
