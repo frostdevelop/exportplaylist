@@ -49,6 +49,7 @@ async function savePlaylist(listname) {
         elm.value = listname;
         elm.dispatchEvent(new Event("input"));
         document.querySelectorAll('button[aria-label="Create"]')[1].click();
+        console.log("created")
     }
     const waitNotif = new MutationObserver(mutations => {
         let notifs = document.querySelectorAll("tp-yt-paper-toast");
