@@ -71,7 +71,7 @@ async function savePlaylist(listname) {
             });
         }
     } else {
-        //console.log(listname)
+        console.log(listname)
         document.querySelector('ytd-add-to-playlist-create-renderer').children[0].click()
         let elm = document.getElementById("name-input");
         elm.value = listname;
