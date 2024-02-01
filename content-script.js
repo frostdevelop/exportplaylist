@@ -95,6 +95,7 @@ async function savePlaylist(listname) {
         childList: true,
         subtree: true
     });
+    console.log("created observer")
 }
 
 function injectplaylist(title) {

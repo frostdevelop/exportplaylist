@@ -64,6 +64,7 @@ async function savePlaylist(listname) {
         childList: true,
         subtree: true
     });
+    console.log("created observer")
 }
 
 savePlaylist(name)
