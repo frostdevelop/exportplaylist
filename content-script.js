@@ -55,7 +55,8 @@ function timeout(time) {
 async function savePlaylist(listname) {
     let save = await waitForElm("[aria-label='Save to playlist']");
     save.click();
-    await waitForElm('button[aria-label="Create"][class="yt-spec-button-shape-next yt-spec-button-shape-next--text yt-spec-button-shape-next--call-to-action yt-spec-button-shape-next--size-m"]');
+    //await waitForElm('button[aria-label="Create"][class="yt-spec-button-shape-next yt-spec-button-shape-next--text yt-spec-button-shape-next--call-to-action yt-spec-button-shape-next--size-m"]');
+    let createbutton = await waitForElm('#actions > ytd-button-renderer > yt-button-shape > button')
     //await timeout(10000);
     let checkboxelm = document.querySelector(`yt-formatted-string[title='${listname}']`);
     if (checkboxelm != null) {
@@ -76,7 +77,7 @@ async function savePlaylist(listname) {
         let elm = document.getElementById("name-input");
         elm.value = listname;
         elm.dispatchEvent(new Event("input"));
-        document.querySelectorAll('button[aria-label="Create"]')[1].click();
+        createbutton.click();
         console.log("created")
     }
     const waitNotif = new MutationObserver(mutations => {

@@ -199,7 +199,7 @@ footer {
   right: 0;
   bottom: 0;
   background: linear-gradient(to left top, #8c8c8c, #b0b0b0);
-  box-shadow: 2px 2px var(--height) rgba(0,0,0,0.7), -2px -2px var(--height) rgba(240,240,240,0.3);
+  box-shadow: 2px 2px var(--height) rgba(0,0,0,0.7), -2px -2px var(--height) rgba(240,240,240,0.3), #6a6a6a 0px 1px inset;
   -webkit-transition: .4s;
   transition: .4s;
 }
