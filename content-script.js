@@ -58,7 +58,14 @@ async function savePlaylist(listname) {
     //await waitForElm('button[aria-label="Create"][class="yt-spec-button-shape-next yt-spec-button-shape-next--text yt-spec-button-shape-next--call-to-action yt-spec-button-shape-next--size-m"]');
     await waitForElm('tp-yt-paper-dialog')
     await waitForElm("ytd-add-to-playlist-create-renderer")
-    let createbutton = await waitForElm('#actions > ytd-button-renderer > yt-button-shape > button')
+    //let createbutton = document.querySelector('#actions > ytd-button-renderer > yt-button-shape > button')
+    //let createbutton = document.querySelector("#actions > ytd-button-renderer")
+    let createbutton = document.querySelectorAll('button[aria-label="Create"')[1]
+    //let listinput = await waitForElm('#name-input');
+    let listinput = document.querySelector('yt-text-input-form-field-renderer')
+    //let listinput = await waitForElm('input[class="style-scope tp-yt-paper-input"]')
+    //let listinput = document.querySelector('input[aria-labelledby="paper-input-label-2"]')
+    //let listinput = document.querySelector('iron-input[class="input-element style-scope tp-yt-paper-input"]').firstElementChild
     //await timeout(10000);
     let checkboxelm = document.querySelector(`yt-formatted-string[title='${listname}']`);
     if (checkboxelm != null) {
@@ -76,11 +83,17 @@ async function savePlaylist(listname) {
     } else {
         console.log(listname)
         //document.querySelector('ytd-add-to-playlist-create-renderer').children[0].click()
-        document.getElementsByClassName('ytd-add-to-playlist-create-renderer')[0].click()
-        let elm = document.getElementById("name-input");
-        elm.value = listname;
-        elm.dispatchEvent(new Event("input"));
-        createbutton.click();
+        //let create = document.getElementsByClassName('ytd-add-to-playlist-create-renderer')[0]
+        await waitForElm('ytd-compact-link-renderer[class="style-scope ytd-add-to-playlist-create-renderer"]')
+        let create = document.querySelector('ytd-compact-link-renderer[class="style-scope ytd-add-to-playlist-create-renderer"]')
+        create.click()
+        listinput.value = listname;
+        listinput.dispatchEvent(new Event("input"));
+        document.querySelectorAll('ytd-button-renderer[class="style-scope ytd-add-to-playlist-create-renderer"]')[1].click()
+        //createbutton.click();
+        console.log(createbutton)
+        console.log(listinput)
+        console.log(create)
         console.log("created")
     }
     const waitNotif = new MutationObserver(mutations => {
@@ -100,6 +113,8 @@ async function savePlaylist(listname) {
         subtree: true
     });
     console.log("created observer")
+    //console.log(document.getElementById('name-input').value)
+    console.log(document.querySelector('yt-text-input-form-field-renderer').value)
 }
 
 function injectplaylist(title) {
