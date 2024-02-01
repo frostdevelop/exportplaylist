@@ -56,7 +56,7 @@ async function savePlaylist(listname) {
     let save = await waitForElm("[aria-label='Save to playlist']");
     save.click();
     await waitForElm('button[aria-label="Create"][class="yt-spec-button-shape-next yt-spec-button-shape-next--text yt-spec-button-shape-next--call-to-action yt-spec-button-shape-next--size-m"]');
-    await timeout(10000);
+    //await timeout(10000);
     let checkboxelm = document.querySelector(`yt-formatted-string[title='${listname}']`);
     if (checkboxelm != null) {
         let checked = checkboxelm.parentElement.parentElement.parentElement.parentElement.checked;
@@ -71,7 +71,8 @@ async function savePlaylist(listname) {
             });
         }
     } else {
-        console.log(listname)
+        //console.log(listname)
+        document.querySelector('ytd-add-to-playlist-create-renderer').children[0].click()
         let elm = document.getElementById("name-input");
         elm.value = listname;
         elm.dispatchEvent(new Event("input"));
