@@ -55,22 +55,13 @@ function timeout(time) {
 async function savePlaylist(listname) {
     let save = await waitForElm("[aria-label='Save to playlist']");
     save.click();
-    //await waitForElm('button[aria-label="Create"][class="yt-spec-button-shape-next yt-spec-button-shape-next--text yt-spec-button-shape-next--call-to-action yt-spec-button-shape-next--size-m"]');
     await waitForElm('tp-yt-paper-dialog')
     await waitForElm("ytd-add-to-playlist-create-renderer")
-    //let createbutton = document.querySelector('#actions > ytd-button-renderer > yt-button-shape > button')
-    //let createbutton = document.querySelector("#actions > ytd-button-renderer")
     let createbutton = document.querySelectorAll('button[aria-label="Create"')[1]
-    //let listinput = await waitForElm('#name-input');
-    //let listinput = document.querySelector('yt-text-input-form-field-renderer')
     let listinput = document.getElementsByClassName("tp-yt-paper-input")[3];
-    
-    //let listinput = await waitForElm('input[class="style-scope tp-yt-paper-input"]')
-    //let listinput = document.querySelector('input[aria-labelledby="paper-input-label-2"]')
-    //let listinput = document.querySelector('iron-input[class="input-element style-scope tp-yt-paper-input"]').firstElementChild
-    //await timeout(10000);
     let checkboxelm = document.querySelector(`yt-formatted-string[title='${listname}']`);
     if (checkboxelm != null) {
+        console.log(checkboxelm)
         let checked = checkboxelm.parentElement.parentElement.parentElement.parentElement.checked;
         console.log(checked);
         if (checked === false) {
@@ -84,23 +75,14 @@ async function savePlaylist(listname) {
         }
     } else {
         console.log(listname)
-        //document.querySelector('ytd-add-to-playlist-create-renderer').children[0].click()
-        //let create = document.getElementsByClassName('ytd-add-to-playlist-create-renderer')[0]
         await waitForElm('ytd-compact-link-renderer[class="style-scope ytd-add-to-playlist-create-renderer"]')
-        //let create = document.querySelector('ytd-compact-link-renderer[class="style-scope ytd-add-to-playlist-create-renderer"]')
         let create = document.getElementsByClassName("ytd-add-to-playlist-create-renderer")[0]
         create.click()
         listinput.value = listname;
         listinput.parentElement.dispatchEvent(new Event("input"));
         
-        //document.querySelectorAll('ytd-button-renderer[class="style-scope ytd-add-to-playlist-create-renderer"]')[1].click()
-        document.querySelectorAll('button[aria-label="Create"]')[1].click();
-        
-        //createbutton.click();
-        console.log(createbutton)
-        console.log(listinput)
-        console.log(create)
-        console.log("created")
+        waitForElm('ytd-button-renderer[class="style-scope ytd-add-to-playlist-create-renderer"]')
+        document.querySelectorAll('ytd-button-renderer[class="style-scope ytd-add-to-playlist-create-renderer"]')[1].click()
     }
     const waitNotif = new MutationObserver(mutations => {
         let notifs = document.querySelectorAll("tp-yt-paper-toast");
@@ -118,66 +100,7 @@ async function savePlaylist(listname) {
         childList: true,
         subtree: true
     });
-    console.log("created observer")
-    //console.log(document.getElementById('name-input').value)
-    console.log(document.querySelector('yt-text-input-form-field-renderer').value)
 }
-
-/*
-function savePlaylist(listname) {
-    waitForElm('[aria-label="Save to playlist"]').then((e) => {
-        e.click()
-        waitForElm('tp-yt-paper-dialog').then(() => {
-            let checks = document.querySelectorAll('tp-yt-paper-checkbox');
-            let found = false;
-            for (let i = 0; i < checks.length; i++) {
-                if (checks[i].children[1].children[0].children[0].children[0].title == listname) {
-                    console.log(checks[i].checked);
-                    if (checks[i].checked === false) {
-                        checks[i].click();
-                    };
-                    if (checks[i].checked === true) {
-                        console.log("checked")
-                        chrome.runtime.sendMessage({
-                            type: "finishimport"
-                        });
-                    };
-                    found = true;
-                    console.log("found");
-                }
-            }
-            console.log("aftercheck")
-            if (found == false) {
-                console.log("notfound")
-                waitForElm('ytd-add-to-playlist-create-renderer').then(() => {
-                    document.getElementsByClassName("ytd-add-to-playlist-create-renderer")[0].click();
-                    console.log("clicked");
-                    let elm = document.getElementsByClassName("tp-yt-paper-input")[3];
-                    elm.value = listname;
-                    elm.parentElement.dispatchEvent(new Event("input"));
-                    document.querySelectorAll('button[aria-label="Create"]')[1].click();
-                });
-            }
-            const waitNotif = new MutationObserver(mutations => {
-                let notifs = document.querySelectorAll("tp-yt-paper-toast");
-                for (let i = 0; i < notifs.length; i++) {
-                    if (notifs[i].children[1].firstElementChild.firstElementChild && notifs[i].children[1].firstElementChild.firstElementChild.innerHTML === "Saved to ") {
-                        chrome.runtime.sendMessage({
-                            type: "finishimport"
-                        });
-                        waitNotif.disconnect();
-                    }
-                }
-            });
-
-            waitNotif.observe(document.querySelector("ytd-popup-container"), {
-                childList: true,
-                subtree: true
-            });
-        });
-    });
-}
-*/
 
 function injectplaylist(title) {
     if (document.getElementById('scrollb')) {
