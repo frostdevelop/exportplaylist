@@ -47,7 +47,9 @@ async function sendMessageToActiveTab(message) {
 	  if(run == true){
 		  console.log("Import Successful!")
 	  } else if (run == false) {
-		  console.error("Import Stopped")
+		  console.log("Import Stopped")
+	  } else {
+		  console.error("ERROR: Invalid run value at 52")
 	  }
   }
   
@@ -62,4 +64,3 @@ async function sendMessageToActiveTab(message) {
 	  console.log("Starting import");
 	}
   });
-  

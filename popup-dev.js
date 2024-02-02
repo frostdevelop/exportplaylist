@@ -1,26 +1,32 @@
 const fileInput = document.getElementById('inputfile');
 let listname = "";
+let filearr = "";
 
 fileInput.addEventListener('change', (event) => {
     const files = event.target.files;
     const fr=new FileReader();
     fr.onload = () =>{
       let data = fr.result;
-      let arr = data.split('\n');
-      listname = arr[0];
+      filearr = data.split('\n');
+      listname = filearr[0];
       document.getElementById('listname').value = listname;
-      document.getElementById('bstarti').addEventListener("click",()=>{
-          chrome.runtime.sendMessage({
-              type: "startimport",
-              data: {
-                  arr: arr,
-                  name: listname
-              }
-          });
-      },false)
     }
     fr.readAsText(files[0]);
 });
+
+document.getElementById('bstarti').addEventListener("click",()=>{
+    if(filearr != "") {
+        chrome.runtime.sendMessage({
+            type: "startimport",
+            data: {
+                arr: filearr,
+                name: listname
+            }
+        });
+    } else {
+        alert("Err: No file input")
+    }
+},false)
 
 function grey(id){
     document.getElementById(id).classList.add("disabled");
