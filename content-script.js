@@ -62,7 +62,9 @@ async function savePlaylist(listname) {
     //let createbutton = document.querySelector("#actions > ytd-button-renderer")
     let createbutton = document.querySelectorAll('button[aria-label="Create"')[1]
     //let listinput = await waitForElm('#name-input');
-    let listinput = document.querySelector('yt-text-input-form-field-renderer')
+    //let listinput = document.querySelector('yt-text-input-form-field-renderer')
+    let listinput = document.getElementsByClassName("tp-yt-paper-input")[3];
+    
     //let listinput = await waitForElm('input[class="style-scope tp-yt-paper-input"]')
     //let listinput = document.querySelector('input[aria-labelledby="paper-input-label-2"]')
     //let listinput = document.querySelector('iron-input[class="input-element style-scope tp-yt-paper-input"]').firstElementChild
@@ -85,11 +87,15 @@ async function savePlaylist(listname) {
         //document.querySelector('ytd-add-to-playlist-create-renderer').children[0].click()
         //let create = document.getElementsByClassName('ytd-add-to-playlist-create-renderer')[0]
         await waitForElm('ytd-compact-link-renderer[class="style-scope ytd-add-to-playlist-create-renderer"]')
-        let create = document.querySelector('ytd-compact-link-renderer[class="style-scope ytd-add-to-playlist-create-renderer"]')
+        //let create = document.querySelector('ytd-compact-link-renderer[class="style-scope ytd-add-to-playlist-create-renderer"]')
+        let create = document.getElementsByClassName("ytd-add-to-playlist-create-renderer")[0]
         create.click()
         listinput.value = listname;
-        listinput.dispatchEvent(new Event("input"));
-        document.querySelectorAll('ytd-button-renderer[class="style-scope ytd-add-to-playlist-create-renderer"]')[1].click()
+        listinput.parentElement.dispatchEvent(new Event("input"));
+        
+        //document.querySelectorAll('ytd-button-renderer[class="style-scope ytd-add-to-playlist-create-renderer"]')[1].click()
+        document.querySelectorAll('button[aria-label="Create"]')[1].click();
+        
         //createbutton.click();
         console.log(createbutton)
         console.log(listinput)
