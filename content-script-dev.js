@@ -90,8 +90,6 @@ async function savePlaylist(listname) {
                     })
                     wait.observe(checkbox, {
                         attributes: true,
-                        childList: true,
-                        subtree: true,
                     });
                 })
                 checked = await waitForCheck;
@@ -137,7 +135,7 @@ async function savePlaylist(listname) {
     const waitNotif = new MutationObserver(mutations => {
         let notifs = document.querySelectorAll("tp-yt-paper-toast");
         for (let i = 0; i < notifs.length; i++) {
-            if (notifs[i].children[1].firstElementChild.firstElementChild && notifs[i].children[1].firstElementChild.firstElementChild.innerHTML === "Saved to ") {
+            if (notifs[i].children[1].firstElementChild.firstElementChild && (notifs[i].children[1].firstElementChild.firstElementChild.innerHTML === "Saved to " || notifs[i].children[1].firstElementChild.firstElementChild.innerHTML === "Added to ")) {
                 console.log("added");
                 chrome.runtime.sendMessage({
                     type: "finishimport"
