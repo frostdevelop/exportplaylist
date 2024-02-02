@@ -60,29 +60,59 @@ async function savePlaylist(listname) {
     await waitForElm("ytd-add-to-playlist-create-renderer")
     //let createbutton = document.querySelector('#actions > ytd-button-renderer > yt-button-shape > button')
     //let createbutton = document.querySelector("#actions > ytd-button-renderer")
-    let createbutton = document.querySelectorAll('button[aria-label="Create"')[1]
+    const createbutton = document.querySelectorAll('button[aria-label="Create"')[1]
     //let listinput = await waitForElm('#name-input');
     //let listinput = document.querySelector('yt-text-input-form-field-renderer')
-    let listinput = document.getElementsByClassName("tp-yt-paper-input")[3];
+    const listinput = document.getElementsByClassName("tp-yt-paper-input")[3];
     
     //let listinput = await waitForElm('input[class="style-scope tp-yt-paper-input"]')
     //let listinput = document.querySelector('input[aria-labelledby="paper-input-label-2"]')
     //let listinput = document.querySelector('iron-input[class="input-element style-scope tp-yt-paper-input"]').firstElementChild
     //await timeout(10000);
-    let checkboxelm = document.querySelector(`yt-formatted-string[title='${listname}']`);
+    const checkboxelm = document.querySelector(`yt-formatted-string[title='${listname}']`);
     if (checkboxelm != null) {
         console.log(checkboxelm)
-        let checked = checkboxelm.parentElement.parentElement.parentElement.parentElement.checked;
+        waitForElm("#playlists")
+        const checkbox = checkboxelm.parentElement.parentElement.parentElement.parentElement;
+        let checked = checkbox.checked
+        if (checked === undefined){
+            checked = checkbox.getAttribute("aria-checked");
+            if (checked === undefined){
+                console.log("Checkbox is null");
+                const waitForCheck = new Promise(resolve => {
+                    const wait = new MutationObserver(mutations=>{
+                        let check = checkbox.getAttribute('aria-checked');
+                        console.log(check)
+                        if(check != undefined){
+                            wait.disconnect()
+                            resolve(check);
+                        }
+                    })
+                    wait.observe(checkbox, {
+                        attributes: true,
+                        childList: true,
+                        subtree: true,
+                    });
+                })
+                checked = await waitForCheck;
+            };
+        };
         console.log(checked);
-        if (checked === false) {
+        console.log(typeof(checked))
+        if (checked == "false") {
+            console.log("clicked")
             checkboxelm.click()
-        }
-        if (checked === true) {
+        } else if (checked == "true") {
             console.log("added");
             chrome.runtime.sendMessage({
                 type: "finishimport"
             });
+            return
+        } else {
+            console.error(`ERROR: ${checked} of type ${typeof(checked)} not recognized`)
+            return
         }
+        console.log("if statments done")
     } else {
         console.log(listname)
         //document.querySelector('ytd-add-to-playlist-create-renderer').children[0].click()
