@@ -23,6 +23,7 @@ function exportPlay() {
     document.body.removeChild(elem);
 }
 
+//Import
 function waitForElm(selector) {
     return new Promise(resolve => {
         if (document.querySelector(selector)) {
@@ -52,14 +53,21 @@ function timeout(time) {
 async function savePlaylist(listname) {
     let save = await waitForElm("[aria-label='Save to playlist']");
     save.click();
-    await waitForElm('tp-yt-paper-dialog')
+    //await waitForElm('button[aria-label="Create"][class="yt-spec-button-shape-next yt-spec-button-shape-next--text yt-spec-button-shape-next--call-to-action yt-spec-button-shape-next--size-m"]');
+    //await waitForElm('tp-yt-paper-dialog')
     await waitForElm("ytd-add-to-playlist-create-renderer")
+    //let createbutton = document.querySelector('#actions > ytd-button-renderer > yt-button-shape > button')
+    //let createbutton = document.querySelector("#actions > ytd-button-renderer")
     const createbutton = document.querySelectorAll('button[aria-label="Create"')[1]
+    //let listinput = await waitForElm('#name-input');
+    //let listinput = document.querySelector('yt-text-input-form-field-renderer')
     const listinput = document.getElementsByClassName("tp-yt-paper-input")[3];
-
+    //let listinput = await waitForElm('input[class="style-scope tp-yt-paper-input"]')
+    //let listinput = document.querySelector('input[aria-labelledby="paper-input-label-2"]')
+    //let listinput = document.querySelector('iron-input[class="input-element style-scope tp-yt-paper-input"]').firstElementChild
+    //await timeout(10000);
     const checkboxelm = document.querySelector(`yt-formatted-string[title='${listname}']`);
     if (checkboxelm != null) {
-        waitForElm("#playlists")
         const checkbox = checkboxelm.parentElement.parentElement.parentElement.parentElement;
         let checked = checkbox.checked
         if (checked === undefined){
@@ -88,17 +96,22 @@ async function savePlaylist(listname) {
             });
             return
         } else {
-            alert(`ERROR: ${checked} of type ${typeof(checked)} not recognized`)
+            console.error(`ERROR: ${checked} of type ${typeof(checked)} not recognized`)
             return
         }
     } else {
+        //document.querySelector('ytd-add-to-playlist-create-renderer').children[0].click()
+        //let create = document.getElementsByClassName('ytd-add-to-playlist-create-renderer')[0]
         await waitForElm('ytd-compact-link-renderer[class="style-scope ytd-add-to-playlist-create-renderer"]')
+        //let create = document.querySelector('ytd-compact-link-renderer[class="style-scope ytd-add-to-playlist-create-renderer"]')
         let create = document.getElementsByClassName("ytd-add-to-playlist-create-renderer")[0]
         create.click()
         listinput.value = listname;
         listinput.parentElement.dispatchEvent(new Event("input"));
-        waitForElm('ytd-button-renderer[class="style-scope ytd-add-to-playlist-create-renderer"]')
+        
         document.querySelectorAll('ytd-button-renderer[class="style-scope ytd-add-to-playlist-create-renderer"]')[1].click()
+        //document.querySelectorAll('button[aria-label="Create"]')[1].click();
+        
     }
     const waitNotif = new MutationObserver(mutations => {
         let notifs = document.querySelectorAll("tp-yt-paper-toast");

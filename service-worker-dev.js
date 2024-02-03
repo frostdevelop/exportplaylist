@@ -3,9 +3,9 @@ async function sendMessageToActiveTab(message) {
 	const response = await chrome.tabs.sendMessage(tab.id, message);
 	// do something with response here, not outside the function
 	return response;
-  }
+}
   
-  async function startimport(arr, listname) {
+async function startimport(arr, listname) {
 	let tab = chrome.tabs.create({url: "about:blank"});
 	let run = true;
 	chrome.runtime.onMessage.addListener((obj, sender, res)=>{
@@ -47,12 +47,14 @@ async function sendMessageToActiveTab(message) {
 	  if(run == true){
 		  console.log("Import Successful!")
 	  } else if (run == false) {
-		  console.error("Import Stopped")
+		  console.log("Import Stopped")
+	  } else {
+		  console.error("ERROR: Invalid run value at 52")
 	  }
-  }
+}
   
-  chrome.tabs.onUpdated.addListener((tabId, tab) => {})
-  chrome.runtime.onMessage.addListener((obj, sender, res)=>{
+chrome.tabs.onUpdated.addListener((tabId, tab) => {})
+chrome.runtime.onMessage.addListener((obj, sender, res)=>{
 	const {
 		type,
 		data
@@ -61,5 +63,4 @@ async function sendMessageToActiveTab(message) {
 	  startimport(data.arr, data.name);
 	  console.log("Starting import");
 	}
-  });
-  
+});
