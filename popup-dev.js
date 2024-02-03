@@ -94,3 +94,16 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById('cexti').addEventListener("change", update, false);
     document.getElementById('cauex').addEventListener("change", update, false);
 })
+
+chrome.runtime.onMessage.addListener((obj, sender, res)=>{
+    const {
+		type,
+		data
+	} = obj;
+    if(type === "notsupported"){
+        alert("Your browser is not supported.")
+    }
+    if(type === "importinactive") {
+        alert("Import is not active.")
+    }
+})
