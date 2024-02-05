@@ -1,3 +1,11 @@
+if(!("indexedDB" in window)) {
+	chrome.runtime.sendMessage({
+		type: "notsupported",
+		data: {}
+	});
+	console.error("Browser is not supported")
+}
+
 async function sendMessageToActiveTab(message) {
 	const [tab] = await chrome.tabs.query({active: true, lastFocusedWindow: true});
 	const response = await chrome.tabs.sendMessage(tab.id, message);
@@ -6,62 +14,49 @@ async function sendMessageToActiveTab(message) {
 }
   
 async function startimport(arr, listname) {
+	if(!("indexedDB" in window)) {
+		chrome.runtime.sendMessage({
+			type: "notsupported",
+			data: {}
+		});
+		return
+	}
+	let service = indexedDB.open('services');
+	localStorage.setItem("import", "true")
 	let tab = chrome.tabs.create({url: "about:blank"});
-	let run = true;
-	chrome.runtime.onMessage.addListener((obj, sender, res)=>{
-	  if(obj.type === "stopimport"){
-		  run = false;
-	  };
-	});
-  
 	[tab] = await chrome.tabs.query({active: true, lastFocusedWindow: true});
-	console.log(arr)
-    let importdb = indexedDB.open("imports", 1)
-    importdb.onupgradeneeded = () => {
-        let db = importdb.result;
-        if(db.objectStoreNames.contains(""))
-    }
-    importdb.onsuccess = () => {
-        console.log("IndexedDB success")
-        let db = importdb.result;
+	service.onsuccess = () => {
+		let db = service.result;
 
-    }
-	for(let i = 1;i<arr.length && run === true;++i){
-		  console.log(i);
-		  await chrome.tabs.update(tab.id, { url: arr[i] })
-			let waitupdate = new Promise((res)=>{
-			  chrome.tabs.onUpdated.addListener(async (tabid, info)=>{
-				  if (tabid == tab.id && info.status == "complete") {
-					  chrome.tabs.sendMessage(tab.id,{
-						  type: "import",
-						  data: {
-							  name: listname
-						  }
-					  }
-					  );
-					  const waitfinish = new Promise((resolve)=>{
-						  chrome.runtime.onMessage.addListener((obj,sender,res)=>{
-							  if(obj.type === "finishimport"){
-								  resolve();
-							  };
-						  });
-					  });
-					  await waitfinish;
-					  res();
-				  };
-			  });
-		  });
-			await waitupdate;
-	  }
-	  chrome.tabs.remove(tab.id);
-	  if(run == true){
-		  console.log("Import Successful!")
-	  } else if (run == false) {
-		  console.log("Import Stopped")
-	  } else {
-		  console.error("ERROR: Invalid run value at 52")
-	  }
+	}
+	service.onerror = () => {
+		console.error("Error in indexedDB: " + service.error)
+	}
+	service.onupgradeneeded = () => {
+		let db = service.result;
+		
+	}
+	localStorage.setItem("importtab", tab.id)
+	localStorage.setItem("importname", listname)
+	localStorage.setItem("importdata", JSON.stringify(arr))
+	localStorage.setItem("importindex", 1)
+	importplaylist(arr[1], listname, tab.id)
 }
+
+async function importplaylist(link, listname, tabid) {
+	await chrome.tabs.update(tabid, { url: link });
+	chrome.tabs.onUpdated.addListener(async (tabid, info)=>{
+		if (tabid == tab.id && info.status == "complete") {
+			chrome.tabs.sendMessage(tabid,{
+				type: "import",
+				data: {
+					name: listname
+				}
+			});
+		}
+	})
+}
+
   
 chrome.tabs.onUpdated.addListener((tabId, tab) => {})
 chrome.runtime.onMessage.addListener((obj, sender, res)=>{
@@ -72,5 +67,114 @@ chrome.runtime.onMessage.addListener((obj, sender, res)=>{
 	if(type === "startimport"){
 	  startimport(data.arr, data.name);
 	  console.log("Starting import");
+	}
+	if(type === "finishimport"){
+		if(localStorage.getItem("import") === "true"){
+			let arr = JSON.parse(localStorage.getItem("importdata"));
+			let index = localStorage.getItem("importindex");
+			let tabid = localStorage.getItem("importtab");
+			if(index < arr.length){
+				importplaylist(arr[index],localStorage.getItem("importname"),tabid);
+			} else if (index >= arr.length){
+				localStorage.setItem("import", "false");
+				chrome.tabs.remove(tabid);
+				console.log("Import Successful!");
+			} else {
+			async function sendMessageToActiveTab(message) {
+	const [tab] = await chrome.tabs.query({active: true, lastFocusedWindow: true});
+	const response = await chrome.tabs.sendMessage(tab.id, message);
+	// do something with response here, not outside the function
+	return response;
+}
+  
+async function startimport(arr, listname) {
+	if(!("localStorage" in window)) {
+		chrome.runtime.sendMessage({
+			type: "notsupported",
+			data: {}
+		});
+		return
+	}
+	localStorage.setItem("import", "true")
+	let tab = chrome.tabs.create({url: "about:blank"});
+	[tab] = await chrome.tabs.query({active: true, lastFocusedWindow: true});
+	localStorage.setItem("importtab", tab.id)
+	localStorage.setItem("importname", listname)
+	localStorage.setItem("importdata", JSON.stringify(arr))
+	localStorage.setItem("importindex", 1)
+	importplaylist(arr[1], listname, tab.id)
+}
+
+async function importplaylist(link, listname, tabid) {
+	await chrome.tabs.update(tabid, { url: link });
+	chrome.tabs.onUpdated.addListener(async (tabid, info)=>{
+		if (tabid == tab.id && info.status == "complete") {
+			chrome.tabs.sendMessage(tabid,{
+				type: "import",
+				data: {
+					name: listname
+				}
+			});
+		}
+	})
+}
+
+  
+chrome.tabs.onUpdated.addListener((tabId, tab) => {})
+chrome.runtime.onMessage.addListener((obj, sender, res)=>{
+	const {
+		type,
+		data
+	} = obj;
+	if(type === "startimport"){
+	  startimport(data.arr, data.name);
+	  console.log("Starting import");
+	}
+	if(type === "finishimport"){
+		if(localStorage.getItem("import") === "true"){
+			let arr = JSON.parse(localStorage.getItem("importdata"));
+			let index = localStorage.getItem("importindex");
+			let tabid = localStorage.getItem("importtab");
+			if(index < arr.length){
+				importplaylist(arr[index],localStorage.getItem("importname"),tabid);
+			} else if (index >= arr.length){
+				localStorage.setItem("import", "false");
+				chrome.tabs.remove(tabid);
+				console.log("Import Successful!");
+			} else {
+				localStorage.setItem("import", "false");
+				console.error("Error with Import at 63");
+			}
+		}
+	}
+	if(type === "stopimport"){
+		if(localStorage.getItem("import") === "true"){
+			localStorage.setItem("import", "false")
+			chrome.tabs.remove(localStorage.getItem("importtab"));
+			console.log("Import Stopped")
+		} else {
+			chrome.runtime.sendMessage({
+				type: "importinactive",
+				data: {}
+			})
+		}
+	}
+});
+  	localStorage.setItem("import", "false");
+				console.error("Error with Import at 63");
+			}
+		}
+	}
+	if(type === "stopimport"){
+		if(localStorage.getItem("import") === "true"){
+			localStorage.setItem("import", "false")
+			chrome.tabs.remove(localStorage.getItem("importtab"));
+			console.log("Import Stopped")
+		} else {
+			chrome.runtime.sendMessage({
+				type: "importinactive",
+				data: {}
+			})
+		}
 	}
 });
