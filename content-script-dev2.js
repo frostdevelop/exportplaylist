@@ -55,7 +55,7 @@ function timeout(time) {
     })
 };
 
-async function savePlaylist(listname) {
+async function savePlaylist(listname, arr, index) {
     let save = await waitForElm("[aria-label='Save to playlist']");
     save.click();
     //await waitForElm('button[aria-label="Create"][class="yt-spec-button-shape-next yt-spec-button-shape-next--text yt-spec-button-shape-next--call-to-action yt-spec-button-shape-next--size-m"]');
@@ -103,9 +103,18 @@ async function savePlaylist(listname) {
             checkboxelm.click()
         } else if (checked == "true") {
             console.log("added");
-            chrome.runtime.sendMessage({
-                type: "finishimport"
-            });
+            if(index+1 >= arr.length) {
+                chrome.runtime.sendMessage({
+                    type: "importdone",
+                    data: {
+                        name: listname,
+                    }
+                });
+                sessionStorage.setItem("importindex", 0);
+            } else {
+                sessionStorage.setItem("importindex", index+1);
+                window.href = arr[index+1];
+            }
             return
         } else {
             console.error(`ERROR: ${checked} of type ${typeof(checked)} not recognized`)
@@ -133,9 +142,18 @@ async function savePlaylist(listname) {
         for (let i = 0; i < notifs.length; i++) {
             if (notifs[i].children[1].firstElementChild.firstElementChild && (notifs[i].children[1].firstElementChild.firstElementChild.innerHTML === "Saved to " || notifs[i].children[1].firstElementChild.firstElementChild.innerHTML === "Added to ")) {
                 console.log("added");
-                chrome.runtime.sendMessage({
-                    type: "finishimport"
-                });
+                if(index+1 >= arr.length) {
+                    chrome.runtime.sendMessage({
+                        type: "importdone",
+                        data: {
+                            name: listname,
+                        }
+                    });
+                    sessionStorage.setItem("importindex", 0);
+                } else {
+                    sessionStorage.setItem("importindex", index+1);
+                    window.href = arr[index+1];
+                }
                 waitNotif.disconnect();
             }
         }
@@ -236,6 +254,10 @@ function start() {
         injectplaylist(false);
     } else if (url === "https://www.youtube.com/watch") {
         page = "video";
+        let index = sessionStorage.getItem("importindex");
+        if(index >= 1){
+            savePlaylist(sessionStorage.getItem('importname'), sessionStorage.getItem('importvideos'), sessionStorage.getItem('importindex'));
+        };
     } else {
         page = null;
     }
@@ -261,13 +283,16 @@ chrome.runtime.onMessage.addListener((obj, sender, res) => {
         } else {
             document.getElementById("scrollb").click();
         }
-    } else if (type === "import") {
+    } else if (type === "startimport") {
         if (page != "video") {
             alert("This page is not a video");
         } else {
+            sessionStorage.setItem("importvideos", data.arr)
+            sessionStorage.setItem("importname", data.name)
+            sessionStorage.setItem("importindex", 1)
             if (importing != true) {
                 console.log("importing");
-                savePlaylist(data.name);
+                savePlaylist(data.name, data.arr, 1);
             }
             importing = true;
         }
