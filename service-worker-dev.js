@@ -1,3 +1,5 @@
+'use strict';
+
 async function sendMessageToActiveTab(message) {
 	const [tab] = await chrome.tabs.query({active: true, lastFocusedWindow: true});
 	const response = await chrome.tabs.sendMessage(tab.id, message);
@@ -6,17 +8,35 @@ async function sendMessageToActiveTab(message) {
 }
   
 async function startimport(arr, listname) {
-	let tab = chrome.tabs.create({url: "about:blank"});
-	let run = true;
-	chrome.runtime.onMessage.addListener((obj, sender, res)=>{
-	  if(obj.type === "stopimport"){
-		  run = false;
-	  };
-	});
+	const tab = chrome.tabs.create({url: arr[1]});
   
-	[tab] = await chrome.tabs.query({active: true, lastFocusedWindow: true});
+	//[tab] = await chrome.tabs.query({active: true, lastFocusedWindow: true});
 	console.log(arr)
-	for(let i = 1;i<arr.length && run === true;++i){
+    function sendimport(tabid, info, tab){
+        if (tabid == tab.id && info.status == "complete" && tab.url === arr[1]) {
+            chrome.tabs.sendMessage(tab.id,{
+                type: "startimport",
+                data: {
+                    name: listname,
+                    arr: arr,
+                }
+            })
+            chrome.tabs.onUpdated.removeListener(sendimport);
+            return
+        }
+    }
+    //await chrome.tabs.update(tab.id, { url: arr[1] })
+    chrome.tabs.onUpdated.addListener(sendimport);
+	//Use local for browser support
+	let activeimports = await chrome.storage.local.get(["imports"]);
+	activeimports = activeimports.imports;
+	if(activeimports == undefined) {
+		await chrome.storage.local.set({"imports": [tab.id]});
+	} else {
+		await chrome.storage.local.set({"imports": [...activeimports, tab.id]});
+	}
+	/*
+    for(let i = 1;i<arr.length && run === true;++i){
 		  console.log(i);
 		  await chrome.tabs.update(tab.id, { url: arr[i] })
 			let waitupdate = new Promise((res)=>{
@@ -51,16 +71,48 @@ async function startimport(arr, listname) {
 	  } else {
 		  console.error("ERROR: Invalid run value at 52")
 	  }
+      */
 }
   
-chrome.tabs.onUpdated.addListener((tabId, tab) => {})
-chrome.runtime.onMessage.addListener((obj, sender, res)=>{
+chrome.tabs.onUpdated.addListener((tabId, info, tab) => {})
+
+chrome.tabs.onRemoved.addListener(async tabId=>{
+	let activeimports=await chrome.storage.local.get(["imports"]);
+	activeimports = activeimports.imports;
+	const index = activeimports.indexOf(tabId);
+	if(index != -1){
+		activeimports.splice(index, 1);
+		await chrome.storage.local.set({"imports": activeimports});
+	}
+})
+
+chrome.runtime.onMessage.addListener(async (obj, sender, res)=>{
 	const {
 		type,
 		data
 	} = obj;
+	console.log(type);
 	if(type === "startimport"){
 	  startimport(data.arr, data.name);
 	  console.log("Starting import");
+	}
+	if(type === "importdone"){
+		await chrome.tabs.remove(sender.tab.id);
+		console.log("Import finished", data.name);
+	}
+	if(type === "stopimport"){
+		let activeimports = await chrome.storage.local.get(["imports"]);
+		activeimports = activeimports.imports;
+		console.log(activeimports);
+		if(activeimports != undefined){
+			for(let i=0; i<activeimports.length; i++){
+				try{
+					await chrome.tabs.remove(activeimports[i]);
+				} catch(e) {
+					console.error("Tab removing error:", e)
+				}
+			}
+			await chrome.storage.local.set({"imports": []});
+		}
 	}
 });

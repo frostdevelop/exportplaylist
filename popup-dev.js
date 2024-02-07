@@ -1,3 +1,5 @@
+'use strict';
+
 const fileInput = document.getElementById('inputfile');
 let listname = "";
 let filearr = "";
@@ -23,6 +25,7 @@ document.getElementById('bstarti').addEventListener("click",()=>{
                 name: listname
             }
         });
+        console.log("message sent")
     } else {
         alert("Err: No file input")
     }

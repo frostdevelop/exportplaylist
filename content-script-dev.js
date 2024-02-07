@@ -1,3 +1,4 @@
+'use strict'
 //Export
 console.log("Tab Initializing")
 var url = location.href.split("?")[0];
@@ -52,7 +53,7 @@ function timeout(time) {
     })
 };
 
-async function savePlaylist(listname) {
+async function savePlaylist(listname, arr, index) {
     let save = await waitForElm("[aria-label='Save to playlist']");
     save.click();
     //await waitForElm('button[aria-label="Create"][class="yt-spec-button-shape-next yt-spec-button-shape-next--text yt-spec-button-shape-next--call-to-action yt-spec-button-shape-next--size-m"]');
@@ -93,16 +94,29 @@ async function savePlaylist(listname) {
                 checked = await waitForCheck;
             };
         };
+        /* 
         console.log(checked);
         console.log(typeof(checked))
+        */
         if (checked == "false") {
             console.log("clicked")
             checkboxelm.click()
         } else if (checked == "true") {
             console.log("added");
-            chrome.runtime.sendMessage({
-                type: "finishimport"
-            });
+            let newnum = parseInt(index)+1;
+            if(newnum >= arr.length) {
+                chrome.runtime.sendMessage({
+                    type: "importdone",
+                    data: {
+                        name: listname,
+                    }
+                });
+                sessionStorage.setItem("importindex", 0);
+            } else {
+                sessionStorage.setItem("importindex", newnum);
+                window.location.href = arr[newnum];
+                return
+            }
             return
         } else {
             console.error(`ERROR: ${checked} of type ${typeof(checked)} not recognized`)
@@ -130,10 +144,21 @@ async function savePlaylist(listname) {
         for (let i = 0; i < notifs.length; i++) {
             if (notifs[i].children[1].firstElementChild.firstElementChild && (notifs[i].children[1].firstElementChild.firstElementChild.innerHTML === "Saved to " || notifs[i].children[1].firstElementChild.firstElementChild.innerHTML === "Added to ")) {
                 console.log("added");
-                chrome.runtime.sendMessage({
-                    type: "finishimport"
-                });
                 waitNotif.disconnect();
+                let newnum = parseInt(index)+1;
+                if(newnum >= arr.length) {
+                    chrome.runtime.sendMessage({
+                        type: "importdone",
+                        data: {
+                            name: listname,
+                        }
+                    });
+                    sessionStorage.setItem("importindex", 0);
+                } else {
+                    sessionStorage.setItem("importindex", newnum);
+                    window.location.href = arr[newnum];
+                    return
+                }
             }
         }
     });
@@ -233,6 +258,13 @@ function start() {
         injectplaylist(false);
     } else if (url === "https://www.youtube.com/watch") {
         page = "video";
+        if(importing != true) {
+            importing = true
+            let index = sessionStorage.getItem("importindex");
+            if(index >= 1){
+                savePlaylist(sessionStorage.getItem('importname'), JSON.parse(sessionStorage.getItem('importvideos')), sessionStorage.getItem('importindex'));
+            };
+        }
     } else {
         page = null;
     }
@@ -258,14 +290,15 @@ chrome.runtime.onMessage.addListener((obj, sender, res) => {
         } else {
             document.getElementById("scrollb").click();
         }
-    } else if (type === "import") {
+    } else if (type === "startimport") {
         if (page != "video") {
             alert("This page is not a video");
         } else {
-            if (importing != true) {
-                console.log("importing");
-                savePlaylist(data.name);
-            }
+            sessionStorage.setItem("importvideos", JSON.stringify(data.arr))
+            sessionStorage.setItem("importname", data.name)
+            sessionStorage.setItem("importindex", 1)
+            console.log("importing");
+            savePlaylist(data.name, data.arr, 1);
             importing = true;
         }
     } else if (type === "update") {
