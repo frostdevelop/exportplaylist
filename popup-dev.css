@@ -19,3 +19,9 @@ footer {
   margin: 10px;
   font-size: 10px !important;
 }
+
+#mainheader {
+  font-size: 12px !important;
+  text-align: left !important;
+  margin-top: 10px;
+}
