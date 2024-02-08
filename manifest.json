@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "ExportPlaylist",
-  "version": "1.0",
+  "version": "1.2",
   "description": "Export YouTube playlists!",
   "permissions": ["storage","tabs"],
   "background": {
