@@ -76,7 +76,7 @@ async function startimport(arr, listname) {
   
 chrome.tabs.onUpdated.addListener((tabId, info, tab) => {})
 
-chrome.runtime.onInstall.addListener(()=>{
+chrome.runtime.onInstalled.addListener(()=>{
 	chrome.tabs.create({url: "onboarding.html"});
 });
 
