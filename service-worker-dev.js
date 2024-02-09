@@ -80,6 +80,8 @@ chrome.runtime.onInstall.addListener(()=>{
 	chrome.tabs.create({url: "onboarding.html"});
 });
 
+chrome.runtime.setUninstallURL("https://github.com/frostdevelop/exportplaylist/")
+
 chrome.tabs.onRemoved.addListener(async tabId=>{
 	let activeimports=await chrome.storage.local.get(["imports"]);
 	activeimports = activeimports.imports;
