@@ -76,6 +76,10 @@ async function startimport(arr, listname) {
   
 chrome.tabs.onUpdated.addListener((tabId, info, tab) => {})
 
+chrome.runtime.onInstall.addListener(()=>{
+	chrome.tabs.create({url: "onboarding.html"});
+});
+
 chrome.tabs.onRemoved.addListener(async tabId=>{
 	let activeimports=await chrome.storage.local.get(["imports"]);
 	activeimports = activeimports.imports;

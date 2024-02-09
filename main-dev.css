@@ -9,6 +9,8 @@ html, body {
   text-shadow: 0px 0px 5px rgba(0,0,0,0.7);
   height: 100vh;
   overflow-x: hidden;
+  color-scheme: dark;
+  overflow-y: hidden;
 }
 
 :root {
@@ -55,8 +57,8 @@ header {
   color: currentColor;
   border: var(--border) #292929 solid;
   box-shadow: 2px 2px var(--height) rgba(0,0,0,0.7), -2px -2px var(--height) rgba(240,240,240,0.3);
-  transition: box-shadow 500ms ease, border 500ms ease;
-  font-size: 13px;
+  transition: box-shadow 500ms ease, border 500ms ease, filter .5s ease-in-out, transform .5s ease;
+  font-size: 20px;
   padding: 8px;
   margin: 4px;
   border-radius: var(--radius);
@@ -65,6 +67,8 @@ header {
 
 .button:hover {
   border-color: var(--hover);
+  filter: grayscale(0%);
+  transform: scale(1.1);
 }
 
 .button:active {
@@ -95,7 +99,7 @@ input:hover {
 }
 
 input:active, input[type="text"]:focus {
-  box-shadow: 2px 2px var(--height) rgba(0,0,0,0.7) inset, -2px -2px var(--height) rgba(240,240,240,0.3) inset;
+  box-shadow: 2px 2px var(--height) rgba(0,0,0,0.7) inset, -2px -2px var(--height) rgba(240,240,240,0.3) inset !important;
   border-color: rgba(0,0,0,0);
   background: linear-gradient(to left top, #292929, #121212);
 }
@@ -141,17 +145,24 @@ hr {
 .iconbutton {
   width: 45px;
   height: 45px;
+  filter: grayscale(100%);
+}
+
+.iconbutton:hover {
+  transform: scale(1.1);
 }
 
 .icon {
-  display: inline;
+  display: inline-block;
   height: 25px;
   width: 25px;
+  margin: auto;
 }
 
 .buttonicon {
-  width: 20px;
-  height: 20px;
+  width: 25px;
+  height: 25px;
+  margin-right: 5px;
 }
 
 label.iconbutton {
@@ -278,23 +289,44 @@ a {
   perspective: 100px;
   transform: translate(0, 0) rotate3d(0,0,0,0deg) perspective(300px);
   transition: box-shadow ease-in-out .2s, transform .2s;
-  margin: 35px;
+  margin: 20px 35px;
   display: block;
 }
 
 .img:hover{
-  #transform: translate(0px, -10px) perspective(100px) rotate3d(1, 0.5, 0, 10deg);
-  box-shadow: 0px 12px 20px black;
+  z-index: 10;
+  box-shadow: 0px 12px 20px black, 0px 0px 100px rgb(76 112 161 / 80%);
 }
 
 .carousel {
-  margin: 10px;
   position: absolute;
-  width: 8000px;
+  left: 0;
+  width: 3080px;
   user-select: none;
-  #transition: transform ease-in-out .2s;
+  display: flex;
+  flex-direction: row;
 }
 
 .carousel .img{
   display: inline-block;
+}
+
+.twitter:hover {
+  box-shadow: 0px 0px 20px #1DA1F2;
+}
+
+.youtube:hover {
+  box-shadow: 0px 0px 20px red;
+}
+
+.discord:hover {
+  box-shadow: 0px 0px 20px blue;
+}
+
+.github:hover {
+  box-shadow: 0px 0px 20px white;
+}
+
+.button svg {
+  pointer-events: none;
 }

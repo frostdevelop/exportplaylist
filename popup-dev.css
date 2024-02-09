@@ -25,3 +25,11 @@ footer {
   text-align: left !important;
   margin-top: 10px;
 }
+
+.button {
+  font-size: 13px !important;
+}
+
+.buttonicon {
+  margin-right: unset;
+}
