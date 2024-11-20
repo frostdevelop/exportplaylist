@@ -76,7 +76,7 @@ async function startimport(arr, listname) {
   
 //chrome.tabs.onUpdated.addListener((tabId, info, tab) => {})
 
-chrome.runtime.onInstalled.addListener((d) {
+chrome.runtime.onInstalled.addListener((d) => {
     if (d.reason === "install"){chrome.tabs.create({ url:"welcome.html" })}else if(d.reason === "update"){chrome.tabs.create({ url:"https://github.com/frostdevelop/exportplaylist/releases" })};
 });
 chrome.runtime.setUninstallURL("https://chromewebstore.google.com/detail/exportplaylist/llckehcoicgfpdcjmkjgcfnbbgpalofn");
