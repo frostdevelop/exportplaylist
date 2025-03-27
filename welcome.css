@@ -289,13 +289,10 @@ a {
   transform: translate(0, 0) rotate3d(0,0,0,0deg) perspective(300px);
   transition: box-shadow ease-in-out .2s, transform .2s;
   margin: 20px 35px;
-  /*
   display: flex;
   align-items:center;
   justify-items:center;
   justify-content:center;
-  */
-  display:inline-block;
   overflow:hidden;
   box-sizing: content-box;
 }
@@ -346,6 +343,7 @@ a {
   aspect-ratio: 1 / 1;
   background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 70%);
   top:0;
+  left:0;
   opacity:0;
   background-repeat: no-repeat;
 }
