@@ -30,26 +30,6 @@ document.addEventListener("DOMContentLoaded",()=>{
 
   }
 
-  /*
-function expon(i, time){
-  if(velocities[i] != 0) {
-    console.log("expon")
-    const sign = Math.sign(velocities[i]);
-    velocities[i] -= Math.sign(velocities[i])*amounts[i];
-    amounts[i] *= 1.01;
-    if(Math.sign(velocities[i])==sign){
-      positions[i] += velocities[i];
-      caroulsels[i].style.transform = `translate(${positions[i]}px,0)`;
-      setTimeout(time, expon(i, time));
-    } else {
-      return
-    }
-  } else {
-    return
-  }
-}
-*/
-
   var starttime = 0;
 
   function expon(i, time, duration, start=false){
@@ -59,7 +39,7 @@ function expon(i, time){
     let falloff = 1-(progress/duration);
     if(falloff < 0) falloff = 0;
     positions[i] += target*falloff;
-    positions[i] = Math.max(-(caroulsels[i].offsetWidth)+400, Math.min(positions[i], 0));
+    positions[i] = Math.max(-(caroulsels[i].offsetWidth)+window.innerWidth, Math.min(positions[i], 0));
     caroulsels[i].style.transform = `translate(${positions[i]}px,0)`;
     if(progress < duration) {
       window.requestAnimationFrame((tim)=>{
@@ -72,10 +52,10 @@ function expon(i, time){
 
   for(let i=0; i<caroulsels.length; i++){
     positions.push(0);
-    caroulsels[i].style.width = `${caroulsels[i].children.length*480}px`;
     console.log(caroulsels[i].style.width)
     caroulsels[i].addEventListener("mousedown", (e)=>{
       caroulsels[i].classList.add("clicked");
+	  velocities[i] = 0;
     })
     caroulsels[i].addEventListener("mouseup", (e)=>{
       caroulsels[i].classList.remove("clicked");
@@ -93,10 +73,10 @@ function expon(i, time){
     })
     caroulsels[i].parentElement.addEventListener("mousemove", (e)=>{
       if(caroulsels[i].classList.contains("clicked")){
-        positions[i] += e.movementX/1.2;
-        //console.log(e.movementX)
-        velocities[i] = e.movementX/1.2;
-        positions[i] = Math.max(-(caroulsels[i].offsetWidth)+400, Math.min(positions[i], 0));
+		const movement = e.movementX/1.2;
+        positions[i] += movement;
+        velocities[i] = Math.abs(velocities[i]) > Math.abs(movement) ? velocities[i] : movement;
+        positions[i] = Math.max(-(caroulsels[i].offsetWidth)+window.innerWidth, Math.min(positions[i], 0));
         caroulsels[i].style.transform = `translate(${positions[i]}px,0)`;
       }
     })
