@@ -14,3 +14,5 @@ Share playlists to your friends!
 ![ExportPlaylistScreenshot6](https://github.com/frostdevelop/exportplaylist/assets/87620151/0ee1ff99-3307-4c08-840b-e5fd3f7c4c2a)
 ![ExportPlaylistScreenshot7](https://github.com/frostdevelop/exportplaylist/assets/87620151/fa196630-eaf8-4022-a95b-da7339f53dec)
 ![ExportPlaylistScreenshot1](https://github.com/frostdevelop/exportplaylist/assets/87620151/ce300d0a-b185-49e5-b7a6-715e5cd08f83)
+
+Made for [Youtube](https://youtube.com) by [Google](https://google.com)
